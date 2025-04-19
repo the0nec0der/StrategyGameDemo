@@ -15,7 +15,7 @@ namespace Gameplay.Buildings
 
         public string BuildingName => buildingName;
         public string Purpose => purpose;
-        public Sprite BuildingSprite => buildingSprite;
+        public Sprite Sprite => buildingSprite;
         public Vector2Int Size => size;
         public int Health => health;
         public GameObject Prefab => prefab;
