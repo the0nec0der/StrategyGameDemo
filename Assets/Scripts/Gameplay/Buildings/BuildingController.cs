@@ -1,3 +1,5 @@
+using Gameplay.SoldierUnits;
+
 using UnityEngine;
 
 using Utilities.Pooling;
@@ -11,6 +13,12 @@ namespace Gameplay.Buildings
         private BuildingData data;
 
         public string BuildingName => data.BuildingName;
+        public bool CanProduceUnits => data.CanProduceSoldiers;
+
+        public SoldierData[] GetProducibleSoldiers()
+        {
+            return data.ProducibleSoldiers;
+        }
 
         public void Initialize(BuildingData buildingData)
         {
