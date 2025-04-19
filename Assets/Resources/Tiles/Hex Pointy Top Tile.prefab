@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 3848271605144715712, guid: b85264515e0dbcd469c8d2f2e9cbe778, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -2135585597343286014, guid: eed45a33cd08446c8b88325cf82fc52f, type: 3}
+      objectReference: {fileID: -2135585597343286014, guid: 4b2a04fdbe0ef4d8da8f90eaca817cd1, type: 3}
     - target: {fileID: 5837245306773732189, guid: b85264515e0dbcd469c8d2f2e9cbe778, type: 3}
       propertyPath: m_Name
       value: Hex Pointy Top Tile
