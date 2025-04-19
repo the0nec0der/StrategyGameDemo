@@ -13,9 +13,13 @@ MonoBehaviour:
   m_Name: Factory
   m_EditorClassIdentifier: 
   buildingName: Factory
-  purpose: Spawns mechanical units (tanks, etc.)
-  notes: 
+  description: Manufactures heavy-duty units and experimental prototypes. Specialized
+    in deploying high-endurance Guards.
   buildingSprite: {fileID: 0}
   size: {x: 4, y: 4}
   health: 300
   prefab: {fileID: 0}
+  producibleSoldiers:
+  - {fileID: 11400000, guid: d8fad0ce579ff6b4185ab5e5a811a8e6, type: 2}
+  - {fileID: 11400000, guid: 2d81209d07a0480488ec0d589ca2dc91, type: 2}
+  notes: 

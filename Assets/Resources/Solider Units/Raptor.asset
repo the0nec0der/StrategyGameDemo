@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Raptor
   m_EditorClassIdentifier: 
   soldierName: Raptor
+  description: A balanced skirmisher with a sidearm, effective in varied situations
+    and flanking maneuvers.
   damage: 2
   health: 4
   sprite: {fileID: 0}
   prefab: {fileID: 0}
+  notes: 

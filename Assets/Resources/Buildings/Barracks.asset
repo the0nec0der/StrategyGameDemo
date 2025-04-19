@@ -13,9 +13,15 @@ MonoBehaviour:
   m_Name: Barracks
   m_EditorClassIdentifier: 
   buildingName: Barracks
-  purpose: Spawns soldier units
-  notes: 
+  description: Trains close-quarters combat units. Essential for maintaining an aggressive
+    frontline with Strikers and elite Sharpshooters.
   buildingSprite: {fileID: 0}
   size: {x: 4, y: 4}
   health: 100
   prefab: {fileID: 0}
+  producibleSoldiers:
+  - {fileID: 11400000, guid: 4e2da9d4cb20ae844a268d066a02600e, type: 2}
+  - {fileID: 11400000, guid: cd17ddd82796696479acd51522502eaa, type: 2}
+  - {fileID: 11400000, guid: 351d795b9885f4f4badd358ccb1345ee, type: 2}
+  - {fileID: 11400000, guid: d8fad0ce579ff6b4185ab5e5a811a8e6, type: 2}
+  notes: 

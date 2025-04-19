@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Tank
   m_EditorClassIdentifier: 
   soldierName: Tank
+  description: Heavily armored and tough to take down. Ideal for soaking up damage
+    and holding choke points.
   damage: 8
   health: 16
   sprite: {fileID: 0}
   prefab: {fileID: 0}
+  notes: 

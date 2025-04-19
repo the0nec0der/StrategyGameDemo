@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Command Center
   m_EditorClassIdentifier: 
   buildingName: Command Center
-  purpose: "Central HQ \u2013 losing it = game over"
-  notes: Can be the first placed
+  description: The strategic heart of your operations. Controls advanced deployments
+    and future tech. Unlocks elite units as you expand.
   buildingSprite: {fileID: 0}
   size: {x: 3, y: 3}
   health: 250
   prefab: {fileID: 0}
+  producibleSoldiers: []
+  notes: Can be the first placed

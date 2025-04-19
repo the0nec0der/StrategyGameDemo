@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Power Plant
   m_EditorClassIdentifier: 
   buildingName: Power Plant
-  purpose: Generates energy for unit/building usage
-  notes: 
+  description: Generates energy required to power other facilities. Does not produce
+    units but is critical to your infrastructure.
   buildingSprite: {fileID: 0}
   size: {x: 2, y: 3}
   health: 50
   prefab: {fileID: 0}
+  producibleSoldiers: []
+  notes: 

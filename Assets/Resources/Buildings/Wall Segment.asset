@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Wall Segment
   m_EditorClassIdentifier: 
   buildingName: Wall Segment
-  purpose: Blocks movement
-  notes: 
+  description: Provides essential defense against enemy advances. Durable, immobile,
+    and built to hold the line.
   buildingSprite: {fileID: 0}
   size: {x: 1, y: 1}
   health: 20
   prefab: {fileID: 0}
+  producibleSoldiers: []
+  notes: 
