@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9bff49ed33e34c46842bc935b83dd9a, type: 3}
+  m_Script: {fileID: 11500000, guid: ed286c5019e8ea64182b66ae632680af, type: 3}
   m_Name: Factory
   m_EditorClassIdentifier: 
   buildingName: Factory
@@ -19,7 +19,7 @@ MonoBehaviour:
   size: {x: 4, y: 4}
   health: 300
   prefab: {fileID: 0}
-  producibleSoldiers:
-  - {fileID: 11400000, guid: d8fad0ce579ff6b4185ab5e5a811a8e6, type: 2}
-  - {fileID: 11400000, guid: 2d81209d07a0480488ec0d589ca2dc91, type: 2}
   notes: 
+  producibleSoldiers:
+  - {fileID: 11400000, guid: fa453632823ea2b49848afff8e06996f, type: 2}
+  - {fileID: 11400000, guid: 2d81209d07a0480488ec0d589ca2dc91, type: 2}
