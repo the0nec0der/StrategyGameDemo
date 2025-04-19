@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Viper
   m_EditorClassIdentifier: 
   soldierName: Viper
+  description: A fast-moving unit with an SMG, excellent for rushing and clearing
+    soft targets at close range.
   damage: 4
   health: 8
   sprite: {fileID: 0}
   prefab: {fileID: 0}
+  notes: 

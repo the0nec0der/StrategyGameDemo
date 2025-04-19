@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Bulldog
   m_EditorClassIdentifier: 
   soldierName: Bulldog
+  description: A close-quarters powerhouse that uses a shotgun to deal high burst
+    damage in tight formations.
   damage: 3
   health: 6
   sprite: {fileID: 0}
   prefab: {fileID: 0}
+  notes: 

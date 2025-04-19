@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Sharpshooter
   m_EditorClassIdentifier: 
   soldierName: Sharpshooter
+  description: An elite marksman with deadly aim. Excels at picking off enemies from
+    a distance.
   damage: 8
   health: 4
   sprite: {fileID: 0}
   prefab: {fileID: 0}
+  notes: 
