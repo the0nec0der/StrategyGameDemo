@@ -1,5 +1,3 @@
-using Gameplay.SoldierUnits;
-
 using UnityEngine;
 
 namespace Gameplay.Buildings
@@ -15,18 +13,12 @@ namespace Gameplay.Buildings
         [SerializeField] private int health;
         [SerializeField] private GameObject prefab;
 
-        [Header("Production Options")]
-        [SerializeField] private SoldierData[] producibleSoldiers;
-
         public string BuildingName => buildingName;
         public string Description => description;
         public Sprite Sprite => buildingSprite;
         public Vector2Int Size => size;
         public int Health => health;
         public GameObject Prefab => prefab;
-
-        public SoldierData[] ProducibleSoldiers => producibleSoldiers;
-        public bool CanProduceSoldiers => producibleSoldiers != null && producibleSoldiers.Length > 0;
 
         [Space, SerializeField, TextArea(4, 4)] private string notes;
     }
