@@ -1,5 +1,5 @@
 using System;
-
+using EditorHelper;
 using UnityEngine;
 
 namespace UI
@@ -30,6 +30,7 @@ namespace UI
             canvas.enabled = activeOnStart;
         }
 
+        [Button]
         public void OpenMenu(Action onMenuClosedCallback = null)
         {
             if (IsOpen) return;
@@ -42,6 +43,7 @@ namespace UI
             canvas.enabled = true;
         }
 
+        [Button]
         public void CloseMenu()
         {
             if (!IsOpen) return;
