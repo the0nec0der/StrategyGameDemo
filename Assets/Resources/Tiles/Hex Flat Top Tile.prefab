@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 3848271605144715712, guid: b85264515e0dbcd469c8d2f2e9cbe778, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 2747690628134850419, guid: 16037dbd798344f57a526d53d48f5ead, type: 3}
+      objectReference: {fileID: 2747690628134850419, guid: a9716c16a44a94eed9b5c90fbf4d9bdd, type: 3}
     - target: {fileID: 5837245306773732189, guid: b85264515e0dbcd469c8d2f2e9cbe778, type: 3}
       propertyPath: m_Name
       value: Hex Flat Top Tile
