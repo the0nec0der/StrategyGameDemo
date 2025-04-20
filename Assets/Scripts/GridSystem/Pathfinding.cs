@@ -12,10 +12,10 @@ namespace GridSystem
         private static readonly Color OpenColor = new Color(.4f, .6f, .4f);
         private static readonly Color ClosedColor = new Color(0.35f, 0.4f, 0.5f);
 
-        public static List<NodeBase> FindPath(NodeBase startNode, NodeBase targetNode)
+        public static List<GridTile> FindPath(GridTile startNode, GridTile targetNode)
         {
-            var toSearch = new List<NodeBase>() { startNode };
-            var processed = new List<NodeBase>();
+            var toSearch = new List<GridTile>() { startNode };
+            var processed = new List<GridTile>();
 
             while (toSearch.Any())
             {
@@ -31,7 +31,7 @@ namespace GridSystem
                 if (current == targetNode)
                 {
                     var currentPathTile = targetNode;
-                    var path = new List<NodeBase>();
+                    var path = new List<GridTile>();
                     var count = 100;
                     while (currentPathTile != startNode)
                     {

@@ -22,14 +22,14 @@ namespace GridSystem
         [SerializeField, Range(0, 6)] private int obstacleWeight = 3;
 
         [Header("Prefabs")]
-        [SerializeField] private NodeBase squarePrefab;
-        [SerializeField] private NodeBase hexFlatPrefab;
-        [SerializeField] private NodeBase hexPointyPrefab;
+        [SerializeField] private GridTile squarePrefab;
+        [SerializeField] private GridTile hexFlatPrefab;
+        [SerializeField] private GridTile hexPointyPrefab;
 
-        public Dictionary<Vector2, NodeBase> Tiles { get; private set; }
+        public Dictionary<Vector2, GridTile> Tiles { get; private set; }
 
-        private NodeBase originNode;
-        private NodeBase destinationNode;
+        private GridTile originNode;
+        private GridTile destinationNode;
 
         private void Awake()
         {
@@ -41,23 +41,22 @@ namespace GridSystem
         {
             Tiles = GenerateGrid(layoutType, tileSize, orientation);
 
-            foreach (var tile in Tiles.Values)
-                tile.CacheNeighbors();
+            CacheAllNeighbors();
 
             originNode = Tiles
                 .Where(t => t.Value.Walkable)
                 .OrderBy(_ => Random.value)
                 .First().Value;
 
-            NodeBase.OnHoverTile += OnTileHover;
+            GridTile.OnHoverTile += OnTileHover;
         }
 
         private void OnDestroy()
         {
-            NodeBase.OnHoverTile -= OnTileHover;
+            GridTile.OnHoverTile -= OnTileHover;
         }
 
-        private void OnTileHover(NodeBase nodeBase)
+        private void OnTileHover(GridTile nodeBase)
         {
             destinationNode = nodeBase;
 
@@ -67,14 +66,14 @@ namespace GridSystem
             var path = Pathfinding.FindPath(originNode, destinationNode);
         }
 
-        public NodeBase GetTileAtPosition(Vector2 pos)
+        public GridTile GetTileAtPosition(Vector2 pos)
         {
             return Tiles.TryGetValue(pos, out var tile) ? tile : null;
         }
 
-        private Dictionary<Vector2, NodeBase> GenerateGrid(GridLayoutType layout, int tileSize, GridOrientation orientation)
+        private Dictionary<Vector2, GridTile> GenerateGrid(GridLayoutType layout, int tileSize, GridOrientation orientation)
         {
-            var tiles = new Dictionary<Vector2, NodeBase>();
+            var tiles = new Dictionary<Vector2, GridTile>();
             var gridParent = new GameObject($"{layout} Grid");
 
             switch (layout)
@@ -100,14 +99,14 @@ namespace GridSystem
             return tiles;
         }
 
-        private void GenerateSquareGrid(Dictionary<Vector2, NodeBase> tiles, Transform parent)
+        private void GenerateSquareGrid(Dictionary<Vector2, GridTile> tiles, Transform parent)
         {
             for (int x = 0; x < gridWidth; x++)
             {
                 for (int y = 0; y < gridHeight; y++)
                 {
                     var tile = Instantiate(squarePrefab, parent);
-                    tile.Init(DecideIfObstacle(), new SquareCoords { Pos = new Vector2(x, y) });
+                    tile.Init(DecideIfObstacle(), new SquareCoordinates { Pos = new Vector2(x, y) });
                     tiles[new Vector2(x, y)] = tile;
 
                     tile.name = $"{squarePrefab.name} {x:00} - {y:00}";
@@ -115,14 +114,14 @@ namespace GridSystem
             }
         }
 
-        private void GenerateHexFlatTopGrid(Dictionary<Vector2, NodeBase> tiles, Transform parent)
+        private void GenerateHexFlatTopGrid(Dictionary<Vector2, GridTile> tiles, Transform parent)
         {
             for (int r = 0; r < gridHeight; r++)
             {
                 for (int q = 0; q < gridWidth; q++)
                 {
                     var tile = Instantiate(hexFlatPrefab, parent);
-                    tile.Init(DecideIfObstacle(), new HexFlatCoords(q, r));
+                    tile.Init(DecideIfObstacle(), new HexFlatCoordinates(q, r));
                     tiles[tile.Coords.Pos] = tile;
 
                     tile.name = $"{hexFlatPrefab.name} {r:00} - {q:00}";
@@ -130,7 +129,7 @@ namespace GridSystem
             }
         }
 
-        private void GenerateHexPointyTopGrid(Dictionary<Vector2, NodeBase> tiles, Transform parent)
+        private void GenerateHexPointyTopGrid(Dictionary<Vector2, GridTile> tiles, Transform parent)
         {
             for (int r = 0; r < gridHeight; r++)
             {
@@ -138,13 +137,46 @@ namespace GridSystem
                 for (int q = -rOffset; q < gridWidth - rOffset; q++)
                 {
                     var tile = Instantiate(hexPointyPrefab, parent);
-                    tile.Init(DecideIfObstacle(), new HexPointyCoords(q, r));
+                    tile.Init(DecideIfObstacle(), new HexPointyCoordinates(q, r));
                     tiles[tile.Coords.Pos] = tile;
 
                     tile.name = $"{hexPointyPrefab.name} {r:00} - {q:00}";
                 }
             }
         }
+
+        private void CacheAllNeighbors()
+        {
+            foreach (var tile in Tiles.Values)
+            {
+                var neighbors = new List<GridTile>();
+
+                if (layoutType == GridLayoutType.Square)
+                {
+                    List<Vector2> squareDirs = new List<Vector2> {
+                    new(0, 1), new(-1, 0), new(0, -1), new(1, 0),
+                    new(1, 1), new(1, -1), new(-1, -1), new(-1, 1)
+                    };
+
+                    foreach (var dir in squareDirs)
+                    {
+                        if (Tiles.TryGetValue(tile.Coords.Pos + dir, out var neighbor))
+                            neighbors.Add(neighbor);
+                    }
+                }
+                else
+                {
+                    foreach (var potential in Tiles.Values)
+                    {
+                        if (tile != potential && tile.Coords.GetDistance(potential.Coords) == 1)
+                            neighbors.Add(potential);
+                    }
+                }
+
+                tile.Neighbors = neighbors;
+            }
+        }
+
 
         private bool DecideIfObstacle()
         {

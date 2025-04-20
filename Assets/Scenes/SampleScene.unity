@@ -485,9 +485,9 @@ MonoBehaviour:
   gridWidth: 16
   gridHeight: 9
   obstacleWeight: 3
-  squarePrefab: {fileID: 1738496579723501473, guid: 0354fe0939ca644479735223d4050d1d, type: 3}
-  hexFlatPrefab: {fileID: 8095709437815212225, guid: 48e0efd97a08f3d4f9e6a8febd3d886d, type: 3}
-  hexPointyPrefab: {fileID: 1986610950038443540, guid: 4ff46f9e420cee543b69995c200eba3d, type: 3}
+  squarePrefab: {fileID: 4684346378742831216, guid: 0354fe0939ca644479735223d4050d1d, type: 3}
+  hexFlatPrefab: {fileID: 4684346378742831216, guid: 48e0efd97a08f3d4f9e6a8febd3d886d, type: 3}
+  hexPointyPrefab: {fileID: 4684346378742831216, guid: 4ff46f9e420cee543b69995c200eba3d, type: 3}
 --- !u!1001 &4194846624127223602
 PrefabInstance:
   m_ObjectHideFlags: 0
