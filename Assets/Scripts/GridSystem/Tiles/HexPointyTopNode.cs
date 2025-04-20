@@ -4,27 +4,12 @@ using UnityEngine;
 
 namespace GridSystem
 {
-    public class HexNode : NodeBase
+    public class HexPointyTopNode : NodeBase
     {
         public override void CacheNeighbors()
         {
             Neighbors = GridManager.Instance.Tiles.Where(t => Coords.GetDistance(t.Value.Coords) == 1).Select(t => t.Value).ToList();
         }
-    }
-
-    public struct HexFlatCoords : ICoords
-    {
-        public HexFlatCoords(Vector2 pos)
-        {
-            Pos = new Vector2(pos.x / 2, pos.y / 2);
-        }
-
-        public float GetDistance(ICoords other)
-        {
-            return Vector2.Distance(Pos, other.Pos);
-        }
-
-        public Vector2 Pos { get; set; }
     }
 
     public struct HexPointyCoords : ICoords
