@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 
+using Enums;
+
 using UnityEngine;
 
 namespace GridSystem
@@ -7,7 +9,7 @@ namespace GridSystem
     [CreateAssetMenu(fileName = "Hex Pointy Top Grid", menuName = "Game/Grid Layout/Hex Pointy Top Grid Layout")]
     public class HexPointyTopGridLayout : GridLayoutAsset
     {
-        public override Dictionary<Vector2, NodeBase> GenerateGrid(int tileSize)
+        public override Dictionary<Vector2, NodeBase> GenerateGrid(int tileSize, GridOrientation orientation)
         {
             var tiles = new Dictionary<Vector2, NodeBase>();
             var gridParent = new GameObject("Hex Pointy Top Grid");
@@ -24,6 +26,10 @@ namespace GridSystem
             }
 
             gridParent.transform.localScale = Vector3.one * tileSize;
+            gridParent.transform.rotation = orientation == GridOrientation.Horizontal
+                ? Quaternion.Euler(90f, 0f, 0f)
+                : Quaternion.identity;
+
             return tiles;
         }
     }

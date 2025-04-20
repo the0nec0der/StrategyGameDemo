@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-
+using Enums;
 using UnityEngine;
 
 namespace GridSystem
@@ -10,7 +10,7 @@ namespace GridSystem
         [SerializeField, Range(3, 50)] protected int gridWidth = 16;
         [SerializeField, Range(3, 50)] protected int gridHeight = 9;
         [SerializeField, Range(0, 6)] private int obstacleWeight = 3;
-        public abstract Dictionary<Vector2, NodeBase> GenerateGrid(int tileSize);
+        public abstract Dictionary<Vector2, NodeBase> GenerateGrid(int tileSize, GridOrientation orientation);
 
         protected bool DecideIfObstacle() => Random.Range(1, 20) > obstacleWeight;
     }

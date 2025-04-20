@@ -1,5 +1,5 @@
 using Core.InstanceSystem;
-
+using GridSystem;
 using SaveSystem;
 
 using SettingSystem;
@@ -14,6 +14,7 @@ public class GameLogicMediator : MonoBehaviour
 
     public SaveManager SaveManager { get; private set; }
     public AudioManager AudioManager { get; private set; }
+    public GridManager GridManager { get; private set; }
 
     public SettingsMenuController SettingsMenuController { get; private set; }
 
@@ -24,6 +25,7 @@ public class GameLogicMediator : MonoBehaviour
 
         SaveManager = Instanced<SaveManager>.Instance;
         AudioManager = Instanced<AudioManager>.Instance;
+        GridManager = Instanced<GridManager>.Instance;
 
         SettingsMenuController = Instanced<SettingsMenuController>.Instance;
 

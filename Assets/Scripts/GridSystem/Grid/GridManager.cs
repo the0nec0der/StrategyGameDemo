@@ -1,26 +1,36 @@
 using System.Collections.Generic;
 using System.Linq;
+
+using Core.InstanceSystem;
+
+using Enums;
+
 using UnityEngine;
 
 namespace GridSystem
 {
     public class GridManager : MonoBehaviour
     {
-        public static GridManager Instance;
+        public static GridManager Instance => Instanced<GridManager>.Instance;
 
         [SerializeField] private GridLayoutAsset gridLayout;
         [SerializeField, Range(1, 10)] private int tileSize = 6;
+        [SerializeField] private GridOrientation orientation = GridOrientation.Horizontal;
         [SerializeField] private bool drawConnections;
-
-        public Dictionary<Vector2, NodeBase> Tiles { get; private set; }
 
         private NodeBase playerNodeBase, goalNodeBase;
 
-        void Awake() => Instance = this;
+        public Dictionary<Vector2, NodeBase> Tiles { get; private set; }
+
+        void Awake()
+        {
+            if (Instance != this)
+                return;
+        }
 
         private void Start()
         {
-            Tiles = gridLayout.GenerateGrid(tileSize);
+            Tiles = gridLayout.GenerateGrid(tileSize, orientation);
 
             foreach (var tile in Tiles.Values) tile.CacheNeighbors();
             playerNodeBase = Tiles.Where(t => t.Value.Walkable).OrderBy(t => Random.value).First().Value;

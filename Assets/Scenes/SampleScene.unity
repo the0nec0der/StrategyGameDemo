@@ -265,7 +265,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &812087801
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -479,8 +479,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 566f83055f1c8c1469c10e5ecdfbea27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridLayout: {fileID: 11400000, guid: a7e2889c750f68943b1f5a4160e8f0a7, type: 2}
+  gridLayout: {fileID: 11400000, guid: f82b5aecb192c6e428b0adb251782fa5, type: 2}
   tileSize: 1
+  orientation: 0
   drawConnections: 1
 --- !u!1001 &4194846624127223602
 PrefabInstance:
