@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-
+using System.Linq;
 using UnityEngine;
 
 namespace GridSystem
@@ -9,6 +9,7 @@ namespace GridSystem
         public static GridManager Instance;
 
         [SerializeField] private GridLayoutAsset gridLayout;
+        [SerializeField, Range(1, 10)] private int tileSize = 6;
         [SerializeField] private bool drawConnections;
 
         public Dictionary<Vector2, NodeBase> Tiles { get; private set; }
@@ -19,9 +20,10 @@ namespace GridSystem
 
         private void Start()
         {
-            Tiles = gridLayout.GenerateGrid();
+            Tiles = gridLayout.GenerateGrid(tileSize);
 
             foreach (var tile in Tiles.Values) tile.CacheNeighbors();
+            playerNodeBase = Tiles.Where(t => t.Value.Walkable).OrderBy(t => Random.value).First().Value;
             NodeBase.OnHoverTile += OnTileHover;
         }
 

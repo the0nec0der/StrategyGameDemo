@@ -7,7 +7,7 @@ namespace GridSystem
     [CreateAssetMenu(fileName = "Square Grid Layout", menuName = "Game/Grid Layout/Square Grid Layout")]
     public class SquareGridLayout : GridLayoutAsset
     {
-        public override Dictionary<Vector2, NodeBase> GenerateGrid()
+        public override Dictionary<Vector2, NodeBase> GenerateGrid(int tileSize)
         {
             var tiles = new Dictionary<Vector2, NodeBase>();
             var gridParent = new GameObject("Hex Pointy Top Grid");
@@ -22,6 +22,7 @@ namespace GridSystem
                 }
             }
 
+            gridParent.transform.localScale = Vector3.one * tileSize;
             return tiles;
         }
     }
