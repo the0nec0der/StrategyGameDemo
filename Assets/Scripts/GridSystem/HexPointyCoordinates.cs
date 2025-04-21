@@ -11,7 +11,7 @@ namespace GridSystem
         {
             this.q = q;
             this.r = r;
-            Pos = this.q * new Vector2(Sqrt3, 0) / 2 + this.r * new Vector2(Sqrt3 / 2, 1.5f) / 2;
+            Pos = this.q * new Vector2(Sqrt3, 0) + this.r * new Vector2(Sqrt3 / 2, 1.5f);
         }
 
         public float GetDistance(ICoordinates other) => (this - (HexPointyCoordinates)other).AxialLength();

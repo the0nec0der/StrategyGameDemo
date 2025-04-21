@@ -16,9 +16,12 @@ namespace GridSystem
         public ICoordinates Coords;
         public float GetDistance(GridTile other) => Coords.GetDistance(other.Coords);
         public bool Walkable { get; private set; }
+        private bool occupied = false;
 
         private bool selected;
         private Color defaultColor;
+
+        public bool Occupied { get; set; }
 
         public virtual void Init(bool walkable, ICoordinates coords)
         {
@@ -39,6 +42,10 @@ namespace GridSystem
         private void OnOnHoverTile(GridTile selected) => this.selected = selected == this;
 
         protected virtual void OnMouseDown()
+        {
+        }
+
+        private void OnMouseEnter()
         {
             if (!Walkable) return;
             OnHoverTile?.Invoke(this);

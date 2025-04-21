@@ -56,14 +56,15 @@ namespace GridSystem
             GridTile.OnHoverTile -= OnTileHover;
         }
 
-        private void OnTileHover(GridTile nodeBase)
+        private void OnTileHover(GridTile hoveredTile)
         {
-            destinationNode = nodeBase;
+            destinationNode = hoveredTile;
 
             foreach (var tile in Tiles.Values)
                 tile.RevertTile();
 
-            var path = Pathfinding.FindPath(originNode, destinationNode);
+            // var path = Pathfinding.FindPath(originNode, destinationNode);
+            GridTileGroupPlacer.Instance?.UpdatePreview(hoveredTile);
         }
 
         public GridTile GetTileAtPosition(Vector2 pos)
@@ -124,7 +125,7 @@ namespace GridSystem
                     tile.Init(DecideIfObstacle(), new HexFlatCoordinates(q, r));
                     tiles[tile.Coords.Pos] = tile;
 
-                    tile.name = $"{hexFlatPrefab.name} {r:00} - {q:00}";
+                    tile.name = $"{hexFlatPrefab.name} {q:00} - {r:00}";
                 }
             }
         }
@@ -140,7 +141,7 @@ namespace GridSystem
                     tile.Init(DecideIfObstacle(), new HexPointyCoordinates(q, r));
                     tiles[tile.Coords.Pos] = tile;
 
-                    tile.name = $"{hexPointyPrefab.name} {r:00} - {q:00}";
+                    tile.name = $"{hexPointyPrefab.name} {q:00} - {r:00}";
                 }
             }
         }
@@ -176,7 +177,6 @@ namespace GridSystem
                 tile.Neighbors = neighbors;
             }
         }
-
 
         private bool DecideIfObstacle()
         {
