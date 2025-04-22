@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-
+using Gameplay.Buildings;
 using Gameplay.Product;
 
 using UnityEngine;
@@ -16,18 +16,37 @@ namespace UI
 
         private List<ProductCard> activeCards = new();
 
-        private void Start()
+        protected override void MenuOpened()
         {
+            base.MenuOpened();
+
             PoolManager.Instance.CreatePool(productCardPrefab, 30);
 
-            IProduct[] products = ResourceLoader.LoadAllFromResources<IProduct, ScriptableObject>();
+            IProduct[] products = ResourceLoader.LoadAllFromResources<IProduct, BuildingData>();
 
-            foreach (var product in products)
+            int i = 0;
+            for (; i < products.Length; i++)
             {
-                var card = PoolManager.Instance.Get<ProductCard>(Vector3.zero, Quaternion.identity);
-                card.transform.SetParent(contentParent, false);
-                card.SetProductCard(product);
-                activeCards.Add(card);
+                ProductCard card;
+                if (i < activeCards.Count)
+                {
+                    card = activeCards[i];
+                }
+                else
+                {
+                    card = PoolManager.Instance.Get<ProductCard>(Vector3.zero, Quaternion.identity);
+                    card.transform.SetParent(contentParent, false);
+                    activeCards.Add(card);
+                }
+
+                card.gameObject.SetActive(true);
+                card.SetProductCard(products[i]);
+            }
+
+            // Disable unused cards
+            for (; i < activeCards.Count; i++)
+            {
+                activeCards[i].gameObject.SetActive(false);
             }
         }
     }
