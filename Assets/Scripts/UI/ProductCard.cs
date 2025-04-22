@@ -1,3 +1,5 @@
+using System;
+
 using Gameplay.Product;
 
 using TMPro;
@@ -11,11 +13,39 @@ namespace UI
     {
         [SerializeField] private TMP_Text productName = null;
         [SerializeField] private Image productIcon = null;
+        [SerializeField] private Button productButton = null;
 
-        public void SetProductCard(IProduct productReference)
+        private IProduct product = null;
+        private Action onClickAction = null;
+
+        public IProduct Product => product;
+
+        public void SetProductCard(IProduct productReference, Action onClick = null)
         {
-            productName.text = productReference?.Name;
-            productIcon.sprite = productReference?.Icon;
+            ClearCard();
+
+            product = productReference;
+
+            productName.text = product?.Name;
+            productIcon.sprite = product?.Icon;
+
+            onClickAction = onClick;
+
+            productButton.onClick.RemoveAllListeners();
+            productButton.onClick.AddListener(() => onClickAction?.Invoke());
+        }
+
+        private void ClearCard()
+        {
+            product = null;
+            productName.text = "";
+            productIcon.sprite = default;
+
+            if (onClickAction != null)
+            {
+                productButton.onClick.RemoveListener(() => onClickAction());
+                onClickAction = null;
+            }
         }
     }
 }
