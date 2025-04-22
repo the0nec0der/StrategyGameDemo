@@ -8,7 +8,6 @@ namespace Gameplay.Product
         string Name { get; }
         string Description { get; }
         Sprite Icon { get; }
-        float Health { get; }
         GameObject Prefab { get; }
     }
 }

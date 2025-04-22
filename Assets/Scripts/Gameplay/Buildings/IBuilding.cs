@@ -1,10 +1,9 @@
 using Gameplay.Product;
-using UnityEngine;
+using Gameplay.StatSystem;
 
 namespace Gameplay.Buildings
 {
-    public interface IBuilding : IProduct
+    public interface IBuilding : IProduct, IBuildingStats, ISizeStat
     {
-        Vector2Int Size { get; }
     }
 }

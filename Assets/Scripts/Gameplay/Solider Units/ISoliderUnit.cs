@@ -1,9 +1,9 @@
 using Gameplay.Product;
+using Gameplay.StatSystem;
 
 namespace Gameplay.SoldierUnits
 {
-    public interface ISoliderUnit : IProduct
+    public interface ISoliderUnit : IProduct, ISoliderUnitStats
     {
-        float Damage { get; }
     }
 }

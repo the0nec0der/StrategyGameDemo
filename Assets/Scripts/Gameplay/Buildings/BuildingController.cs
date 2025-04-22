@@ -20,7 +20,7 @@ namespace Gameplay.Buildings
             data = buildingData;
             producerData = buildingData as ProducerBuildingData;
 
-            InitializeMaxHP(data.Health);
+            InitializeMaxHP(data.MaxHealth);
         }
 
         public ISoliderUnit[] GetProducibleSoldiers()

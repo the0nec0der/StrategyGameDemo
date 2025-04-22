@@ -14,7 +14,7 @@ namespace Gameplay.SoldierUnits
         public void Initialize(SoldierData soldierData)
         {
             data = soldierData;
-            InitializeMaxHP(data.Health);
+            InitializeMaxHP(data.MaxHealth);
         }
         protected override void Elimination()
         {
