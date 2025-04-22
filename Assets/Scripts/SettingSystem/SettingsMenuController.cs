@@ -33,6 +33,7 @@ namespace UI
         #region Menu Control
         protected override void MenuOpened()
         {
+            base.MenuOpened();
             AudioManager = Instanced<AudioManager>.Instance;
             InitializeUI();
         }
