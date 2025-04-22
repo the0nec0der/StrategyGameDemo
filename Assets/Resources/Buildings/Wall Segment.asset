@@ -15,7 +15,8 @@ MonoBehaviour:
   productData:
     id: 6747c82a-a725-4e19-a212-20983e212e41
     productName: Wall Segment
-    description: 
+    description: Provides solid defense by blocking enemy movement and protecting
+      key structures. Position strategically to control enemy paths.
     icon: {fileID: 1511550547767457586, guid: e6bbe364cea59eb48b2ec38c2645b3d4, type: 3}
     prefab: {fileID: 3686578664096649666, guid: 772d306dc8c95184aa7c87f356d923dc, type: 3}
     notes: 

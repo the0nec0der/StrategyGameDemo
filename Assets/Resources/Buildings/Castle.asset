@@ -15,7 +15,8 @@ MonoBehaviour:
   productData:
     id: 8873ae5a-3a71-42d1-967d-ab831174d64d
     productName: Castle
-    description: 
+    description: Your central stronghold and command center. Unlocks advanced technologies,
+      stores resources, and serves as your base's heart.
     icon: {fileID: -6754239384357436178, guid: 72e19a9c895755e4b91a000ff6756ff9, type: 3}
     prefab: {fileID: 3064193756444261385, guid: 508994a19e9ac384788b911ffe420411, type: 3}
     notes: 

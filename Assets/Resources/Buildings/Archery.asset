@@ -15,7 +15,8 @@ MonoBehaviour:
   productData:
     id: 922dece1-343e-464d-9751-f61729608f16
     productName: Archery
-    description: 
+    description: Recruits skilled ranged units with precision and speed. Essential
+      for picking off enemies from a distance.
     icon: {fileID: 1765351576224072635, guid: 6dc780130bb52da46bb49e526a1c5e7f, type: 3}
     prefab: {fileID: 3571912312444767646, guid: 6e370f50faeb20849adda7b4ef5dc3bd, type: 3}
     notes: 

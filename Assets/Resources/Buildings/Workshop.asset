@@ -15,7 +15,8 @@ MonoBehaviour:
   productData:
     id: a9c59eca-b0b9-4223-9219-f8473e60cf21
     productName: Workshop
-    description: 
+    description: Constructs siege machines like Catapults and Ballistas. Crucial
+      for breaking enemy defenses from afar.
     icon: {fileID: 2785683880998760008, guid: 36aeb88851ebf10499388af6cac32d7d, type: 3}
     prefab: {fileID: 7274912245100025854, guid: 0166a56d26d89394c8991475c63858f2, type: 3}
     notes: 
