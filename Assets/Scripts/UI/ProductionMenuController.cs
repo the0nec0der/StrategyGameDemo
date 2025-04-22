@@ -1,11 +1,13 @@
 using System.Collections.Generic;
+
+using Core.InstanceSystem;
+
 using Gameplay.Buildings;
 using Gameplay.Product;
 
 using UnityEngine;
 
 using Utilities;
-using Utilities.Pooling;
 
 namespace UI
 {
@@ -14,40 +16,41 @@ namespace UI
         [SerializeField] private ProductCard productCardPrefab;
         [SerializeField] private Transform contentParent;
 
+        private BuildingInformationMenuController BuildingInformationMenuController = null;
+        private ProductCardDisplayer ProductCardDisplayer = null;
         private List<ProductCard> activeCards = new();
+
+        protected override void Awake()
+        {
+            base.Awake();
+            EnsureCardDisplayerAssigned();
+        }
 
         protected override void MenuOpened()
         {
             base.MenuOpened();
+            EnsureCardDisplayerAssigned();
 
-            PoolManager.Instance.CreatePool(productCardPrefab, 30);
+            BuildingInformationMenuController = Instanced<BuildingInformationMenuController>.Instance;
 
             IProduct[] products = ResourceLoader.LoadAllFromResources<IProduct, BuildingData>();
 
-            int i = 0;
-            for (; i < products.Length; i++)
-            {
-                ProductCard card;
-                if (i < activeCards.Count)
+            ProductCardDisplayer.DisplayProducts(
+                activeCards,
+                products,
+                productCardPrefab,
+                contentParent,
+                30,
+                (product) => () =>
                 {
-                    card = activeCards[i];
+                    BuildingInformationMenuController.SetBuildingInformationPanel(product as IBuilding);
+                    CloseMenu();
                 }
-                else
-                {
-                    card = PoolManager.Instance.Get<ProductCard>(Vector3.zero, Quaternion.identity);
-                    card.transform.SetParent(contentParent, false);
-                    activeCards.Add(card);
-                }
-
-                card.gameObject.SetActive(true);
-                card.SetProductCard(products[i]);
-            }
-
-            // Disable unused cards
-            for (; i < activeCards.Count; i++)
-            {
-                activeCards[i].gameObject.SetActive(false);
-            }
+            );
+        }
+        private void EnsureCardDisplayerAssigned()
+        {
+            ProductCardDisplayer = ProductCardDisplayer != null ? ProductCardDisplayer : GetComponent<ProductCardDisplayer>() ?? gameObject.AddComponent<ProductCardDisplayer>();
         }
     }
 }
