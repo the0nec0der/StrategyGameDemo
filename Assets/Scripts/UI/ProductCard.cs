@@ -1,3 +1,5 @@
+using Gameplay.Product;
+
 using TMPro;
 
 using UnityEngine;
@@ -7,7 +9,13 @@ namespace UI
 {
     public class ProductCard : MonoBehaviour
     {
-        [SerializeField] private TMP_Text _itemName = null;
-        [SerializeField] private Image _itemIcon = null;
+        [SerializeField] private TMP_Text productName = null;
+        [SerializeField] private Image productIcon = null;
+
+        public void SetProductCard(IProduct productReference)
+        {
+            productName.text = productReference?.Name;
+            productIcon.sprite = productReference?.Icon;
+        }
     }
 }

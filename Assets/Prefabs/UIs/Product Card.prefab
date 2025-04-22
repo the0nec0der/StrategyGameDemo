@@ -148,8 +148,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3847059149462197370}
+  - component: {fileID: 462059274341274071}
   m_Layer: 5
-  m_Name: Product
+  m_Name: Product Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -176,6 +177,20 @@ RectTransform:
   m_AnchoredPosition: {x: 105, y: -140}
   m_SizeDelta: {x: 192, y: 256}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &462059274341274071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2300184557326255094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b8b6413908aac742a53eb5f77f4d586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  productName: {fileID: 3205387660510201733}
+  productIcon: {fileID: 8833207837367663272}
 --- !u!1 &6412773147943535397
 GameObject:
   m_ObjectHideFlags: 0
