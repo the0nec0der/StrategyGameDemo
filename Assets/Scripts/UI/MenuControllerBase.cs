@@ -1,6 +1,11 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+
 using EditorHelper;
+
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI
 {
@@ -12,6 +17,7 @@ namespace UI
         public event IMenuController.MenuClosedDelegate OnMenuClosed;
 
         private Canvas canvas;
+        private readonly List<RectTransform> rebuildableLayouts = new();
         private Action onMenuClosedCallback = null;
 
         public bool IsOpen => canvas != null && canvas.enabled;
@@ -58,7 +64,38 @@ namespace UI
             MenuClosed();
         }
 
-        protected virtual void MenuOpened() { }
+        protected virtual void MenuOpened()
+        {
+            RefreshLayouts();
+        }
         protected virtual void MenuClosed() { }
+
+        protected void RefreshLayouts()
+        {
+            CacheRebuildableLayouts();
+            StartCoroutine(RebuildLayoutsCoroutine());
+        }
+
+        private void CacheRebuildableLayouts()
+        {
+            rebuildableLayouts.Clear();
+
+            foreach (RectTransform layoutGroup in GetComponentsInChildren<RectTransform>())
+            {
+                RectTransform rectTransform = layoutGroup.GetComponent<RectTransform>();
+                if (rectTransform != null)
+                    rebuildableLayouts.Add(rectTransform);
+            }
+
+            rebuildableLayouts.Reverse();
+        }
+
+        private IEnumerator RebuildLayoutsCoroutine()
+        {
+            yield return null;
+
+            foreach (RectTransform rectTransform in rebuildableLayouts)
+                LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
+        }
     }
 }
