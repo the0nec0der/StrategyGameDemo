@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed286c5019e8ea64182b66ae632680af, type: 3}
-  m_Name: Barracks
+  m_Name: Archery
   m_EditorClassIdentifier: 
   productData:
-    id: f9a020b7-2a6e-43e6-9ed7-e877fca38407
-    productName: Barracks
+    id: 922dece1-343e-464d-9751-f61729608f16
+    productName: Archery
     description: 
-    icon: {fileID: 5002096206624228670, guid: 756517e848c262941a56641f30a9f159, type: 3}
-    prefab: {fileID: 5302006862523849293, guid: 47c3b041b464f8648a9c937848c3b4b2, type: 3}
+    icon: {fileID: 1765351576224072635, guid: 6dc780130bb52da46bb49e526a1c5e7f, type: 3}
+    prefab: {fileID: 3571912312444767646, guid: 6e370f50faeb20849adda7b4ef5dc3bd, type: 3}
     notes: 
   sizeData:
     size: {x: 0, y: 0}
@@ -25,7 +25,7 @@ MonoBehaviour:
     armor: 0
     resistance: 0
   healthData:
-    maxHealth: 100
+    maxHealth: 200
   producibleSoldiers:
-  - {fileID: 11400000, guid: d8fad0ce579ff6b4185ab5e5a811a8e6, type: 2}
-  - {fileID: 11400000, guid: fa453632823ea2b49848afff8e06996f, type: 2}
+  - {fileID: 11400000, guid: cd17ddd82796696479acd51522502eaa, type: 2}
+  - {fileID: 11400000, guid: 351d795b9885f4f4badd358ccb1345ee, type: 2}

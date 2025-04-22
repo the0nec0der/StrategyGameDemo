@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef50b8935cd60e740a88efd6d3435a93, type: 3}
+  m_Name: Heavy Infantry
+  m_EditorClassIdentifier: 
+  productData:
+    id: beb752e6-59e4-4857-836a-724e2748b165
+    productName: Heavy Infantry
+    description: 
+    icon: {fileID: -1807874063, guid: e4b3317a1bd227540b0b825261febfaf, type: 3}
+    prefab: {fileID: 150198, guid: b4a1d0e6439682a4e958fb7c874ccb8c, type: 3}
+    notes: 
+  damageData:
+    damage: 6
+    attackSpeed: 0.8
+    criticalChance: 2.4
+    criticalMultiplier: 3
+  defenseData:
+    armor: 3
+    resistance: 2
+  healthData:
+    maxHealth: 12
+  rangeData:
+    attackPattern:
+      minRange: 1
+      maxRange: 1
+      excludedOffsets: []

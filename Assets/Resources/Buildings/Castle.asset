@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9bff49ed33e34c46842bc935b83dd9a, type: 3}
-  m_Name: Wall Segment
+  m_Name: Castle
   m_EditorClassIdentifier: 
   productData:
-    id: 6747c82a-a725-4e19-a212-20983e212e41
-    productName: Wall Segment
+    id: 8873ae5a-3a71-42d1-967d-ab831174d64d
+    productName: Castle
     description: 
-    icon: {fileID: 1511550547767457586, guid: e6bbe364cea59eb48b2ec38c2645b3d4, type: 3}
-    prefab: {fileID: 3686578664096649666, guid: 772d306dc8c95184aa7c87f356d923dc, type: 3}
+    icon: {fileID: -6754239384357436178, guid: 72e19a9c895755e4b91a000ff6756ff9, type: 3}
+    prefab: {fileID: 3064193756444261385, guid: 508994a19e9ac384788b911ffe420411, type: 3}
     notes: 
   sizeData:
     size: {x: 0, y: 0}
@@ -25,4 +25,4 @@ MonoBehaviour:
     armor: 0
     resistance: 0
   healthData:
-    maxHealth: 60
+    maxHealth: 300

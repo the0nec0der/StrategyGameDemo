@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef50b8935cd60e740a88efd6d3435a93, type: 3}
+  m_Name: Ballista
+  m_EditorClassIdentifier: 
+  productData:
+    id: 354b1ac4-6ea8-4c36-97d8-7c6e75852be0
+    productName: Ballista
+    description: 
+    icon: {fileID: 5967803913905707313, guid: 8c68ee5ff7d8e00498b5548c431f498b, type: 3}
+    prefab: {fileID: 224501367387946656, guid: cb3ed0d4df3e22a40ad0d4304752a928, type: 3}
+    notes: 
+  damageData:
+    damage: 6
+    attackSpeed: 0.2
+    criticalChance: 0.8
+    criticalMultiplier: 1.2
+  defenseData:
+    armor: 1
+    resistance: 1
+  healthData:
+    maxHealth: 24
+  rangeData:
+    attackPattern:
+      minRange: 2
+      maxRange: 3
+      excludedOffsets: []

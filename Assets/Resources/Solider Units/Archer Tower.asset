@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef50b8935cd60e740a88efd6d3435a93, type: 3}
+  m_Name: Archer Tower
+  m_EditorClassIdentifier: 
+  productData:
+    id: 7e9bf171-6187-4c3d-8740-08331b0c5c4f
+    productName: Archer Tower
+    description: 
+    icon: {fileID: 391603290628544396, guid: 0e8717a9bcab944459299f0e1b921793, type: 3}
+    prefab: {fileID: 1704814526276628741, guid: 024c9cabd27358649b96af1884e0bbc0, type: 3}
+    notes: 
+  damageData:
+    damage: 2
+    attackSpeed: 2
+    criticalChance: 1.2
+    criticalMultiplier: 1.4
+  defenseData:
+    armor: 0
+    resistance: 0
+  healthData:
+    maxHealth: 200
+  rangeData:
+    attackPattern:
+      minRange: 1
+      maxRange: 2
+      excludedOffsets: []
