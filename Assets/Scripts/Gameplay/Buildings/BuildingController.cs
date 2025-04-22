@@ -8,12 +8,10 @@ namespace Gameplay.Buildings
 {
     public class BuildingController : HealthEntity, IPoolable
     {
-        [SerializeField] private SpriteRenderer spriteRenderer;
+        private IBuilding data;
+        private IProducerBuilding producerData;
 
-        private BuildingData data;
-        private ProducerBuildingData producerData;
-
-        public string BuildingName => data.BuildingName;
+        public string BuildingName => data.Name;
         public bool CanProduceUnits => producerData != null && producerData.CanProduceSoldiers;
         public Vector2Int Size => data.Size;
 
@@ -23,10 +21,9 @@ namespace Gameplay.Buildings
             producerData = buildingData as ProducerBuildingData;
 
             InitializeMaxHP(data.Health);
-            spriteRenderer.sprite = data.Sprite;
         }
 
-        public SoldierData[] GetProducibleSoldiers()
+        public ISoliderUnit[] GetProducibleSoldiers()
         {
             return producerData?.ProducibleSoldiers;
         }

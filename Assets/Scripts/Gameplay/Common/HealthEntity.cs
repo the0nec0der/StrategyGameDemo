@@ -4,22 +4,20 @@ using UnityEngine;
 
 public abstract class HealthEntity : MonoBehaviour
 {
-    private int maxHP;
-    private int currentHP;
+    private float maxHP;
+    private float currentHP;
 
-    public int MaxHP => maxHP;
-    public int CurrentHP
+    public float MaxHP => maxHP;
+    public float CurrentHP
     {
         get => currentHP;
         set
         {
-            if (value > maxHP)
-                throw new Exception($"HP can't be higher than MaxHP ({maxHP})");
+            float clamped = Mathf.Clamp(value, 0, maxHP);
+            if (Mathf.Approximately(currentHP, clamped)) return;
 
-            if (currentHP == value) return;
-
-            int delta = value - currentHP;
-            currentHP = value;
+            float delta = clamped - currentHP;
+            currentHP = clamped;
             OnHealthChanged?.Invoke(this, delta);
 
             if (currentHP <= 0)
@@ -28,19 +26,35 @@ public abstract class HealthEntity : MonoBehaviour
     }
 
     public bool IsActiveEntity => currentHP > 0;
-    public event Action<HealthEntity, int> OnHealthChanged;
+    public float HPPercent => currentHP / maxHP;
 
-    protected void InitializeMaxHP(int hp)
+    public event Action<HealthEntity, float> OnHealthChanged;
+    public event Action<HealthEntity> OnDeath;
+
+    protected void InitializeMaxHP(float hp)
     {
-        maxHP = hp;
-        CurrentHP = hp;
+        maxHP = Mathf.Max(1f, hp);
+        currentHP = maxHP;
     }
 
-    public virtual void TakeDamage(int amount)
+    public virtual void TakeDamage(float amount)
     {
-        if (!IsActiveEntity) return;
+        if (!IsActiveEntity || !CanTakeDamage()) return;
         CurrentHP -= amount;
     }
 
-    protected virtual void Elimination() { }
+    public virtual void Heal(float amount)
+    {
+        if (!IsActiveEntity) return;
+        CurrentHP += amount;
+    }
+
+    public virtual void Revive() => CurrentHP = maxHP;
+
+    protected virtual bool CanTakeDamage() => true;
+
+    protected virtual void Elimination()
+    {
+        OnDeath?.Invoke(this);
+    }
 }
