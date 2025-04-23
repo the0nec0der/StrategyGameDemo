@@ -64,7 +64,11 @@ namespace GridSystem
                 tile.RevertTile();
 
             // var path = Pathfinding.FindPath(originNode, destinationNode);
-            GridTileGroupPlacer.Instance?.UpdatePreview(hoveredTile);
+            // GridTileGroupPlacer.Instance?.UpdatePreview(hoveredTile);
+            foreach (var neighbor in hoveredTile.Neighbors)
+            {
+                Debug.Log(neighbor.gameObject.name);
+            }
         }
 
         public GridTile GetTileAtPosition(Vector2 pos)
