@@ -1393,7 +1393,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e20a25b6ae68b1444be456637dcd850a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilesParentTransform: {fileID: 651336554}
+  tilesTransform: {fileID: 651336554}
 --- !u!4 &1953733311
 Transform:
   m_ObjectHideFlags: 0
@@ -1456,9 +1456,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layoutType: 1
   orientation: 1
-  tileSize: 6
-  gridWidth: 36
-  gridHeight: 24
+  gridWidth: 16
+  gridHeight: 9
   obstacleWeight: 4
   squarePrefab: {fileID: 4684346378742831216, guid: 0354fe0939ca644479735223d4050d1d, type: 3}
   hexFlatPrefab: {fileID: 4684346378742831216, guid: 48e0efd97a08f3d4f9e6a8febd3d886d, type: 3}

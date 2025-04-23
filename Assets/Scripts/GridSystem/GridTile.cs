@@ -29,28 +29,46 @@ namespace GridSystem
             Walkable = walkable;
             IsPreview = isPreview;
 
+            GetComponent<Collider>().enabled = !isPreview;
+
             tileSpriteRenderer.color = walkable ? walkableColor.Evaluate(Random.Range(0f, 1f)) : obstacleColor;
             defaultColor = tileSpriteRenderer.color;
 
-            OnHoverTile += OnOnHoverTile;
+            OnTileHovered += TileHover;
 
             Coords = coords;
             transform.position = Coords.Pos;
         }
 
-        public static event Action<GridTile> OnHoverTile;
-        private void OnEnable() => OnHoverTile += OnOnHoverTile;
-        private void OnDisable() => OnHoverTile -= OnOnHoverTile;
-        private void OnOnHoverTile(GridTile selected) => this.selected = selected == this;
+        public static event Action<GridTile> OnTileHovered;
+        public static event Action<GridTile> OnTileSelected;
+        private void OnEnable()
+        {
+            OnTileHovered += TileHover;
+            OnTileSelected += TileSelect;
+        }
+        private void OnDisable()
+        {
+            OnTileHovered -= TileHover;
+            OnTileSelected -= TileSelect;
+        }
+        private void TileHover(GridTile selected) { }
+
+        private void TileSelect(GridTile selected)
+        {
+            this.selected = selected == this;
+        }
 
         protected virtual void OnMouseDown()
         {
+            if (!Walkable || IsPreview) return;
+            OnTileSelected?.Invoke(this);
         }
 
         private void OnMouseEnter()
         {
             if (!Walkable || IsPreview) return;
-            OnHoverTile?.Invoke(this);
+            OnTileHovered?.Invoke(this);
         }
 
         #region Pathfinding

@@ -16,7 +16,6 @@ namespace GridSystem
         [Header("Grid Settings")]
         [SerializeField] private GridLayoutType layoutType;
         [SerializeField] private GridOrientation orientation = GridOrientation.Horizontal;
-        [SerializeField, Range(1, 10)] private int tileSize = 6;
         [SerializeField, Range(3, 50)] private int gridWidth = 16;
         [SerializeField, Range(3, 50)] private int gridHeight = 9;
         [SerializeField, Range(0, 6)] private int obstacleWeight = 3;
@@ -27,8 +26,6 @@ namespace GridSystem
         [SerializeField] private GridTile hexPointyPrefab;
 
         public Dictionary<Vector2, GridTile> Tiles { get; private set; }
-        public int TileSize => tileSize;
-        public GridOrientation Orientation => orientation;
 
         private GridTile originNode;
         private GridTile destinationNode;
@@ -48,15 +45,21 @@ namespace GridSystem
                 .OrderBy(_ => Random.value)
                 .First().Value;
 
-            GridTile.OnHoverTile += OnTileHover;
+            GridTile.OnTileHovered += OnTileHovered;
+            GridTile.OnTileSelected += OnTileSelected;
         }
 
         private void OnDestroy()
         {
-            GridTile.OnHoverTile -= OnTileHover;
+            GridTile.OnTileHovered -= OnTileHovered;
         }
 
-        private void OnTileHover(GridTile hoveredTile)
+        private void OnTileSelected(GridTile selectedTile)
+        {
+            Debug.Log($"selected tile name: {selectedTile.transform.name} \n pos: {selectedTile.transform.position} --- {GetTileAtPosition(selectedTile.transform.position)?.gameObject.name}");
+        }
+
+        private void OnTileHovered(GridTile hoveredTile)
         {
             destinationNode = hoveredTile;
 
@@ -64,16 +67,28 @@ namespace GridSystem
                 tile.RevertTile();
 
             // var path = Pathfinding.FindPath(originNode, destinationNode);
-            // GridTileGroupPlacer.Instance?.UpdatePreview(hoveredTile);
-            foreach (var neighbor in hoveredTile.Neighbors)
-            {
-                Debug.Log(neighbor.gameObject.name);
-            }
+            GroupTilePlacer.Instance.UpdatePreview(hoveredTile);
+            // foreach (var neighbor in hoveredTile.Neighbors)
+            // {
+            //     Debug.Log(neighbor.gameObject.name);
+            // }
         }
 
-        public GridTile GetTileAtPosition(Vector2 pos)
+        public GridTile GetTileAtPosition(Vector3 worldPos)
         {
-            return Tiles.TryGetValue(pos, out var tile) ? tile : null;
+            foreach (var kvp in Tiles)
+            {
+                Vector2 tilePos = kvp.Key;
+
+                Vector2 projectedWorldPos = orientation == GridOrientation.Horizontal
+                    ? new Vector2(worldPos.x, worldPos.z)
+                    : new Vector2(worldPos.x, worldPos.y);
+
+                if (Vector2.Distance(tilePos, projectedWorldPos) < 0.1f)
+                    return kvp.Value;
+            }
+
+            return null;
         }
 
         public Dictionary<Vector2, GridTile> GenerateGrid(Transform parent = null, int gridWidth = 0, int gridHeight = 0, bool isPreview = false)
@@ -96,7 +111,6 @@ namespace GridSystem
                     break;
             }
 
-            gridParent.transform.localScale = Vector3.one * tileSize;
             gridParent.transform.rotation = orientation == GridOrientation.Horizontal
                 ? Quaternion.Euler(90f, 0f, 0f)
                 : Quaternion.identity;
