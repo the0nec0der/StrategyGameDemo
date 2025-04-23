@@ -1,7 +1,13 @@
 using System.Collections.Generic;
+
 using Core.InstanceSystem;
+
+using Enums;
+
 using Gameplay.Buildings;
+
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace GridSystem
 {
@@ -16,28 +22,53 @@ namespace GridSystem
 
         private IBuilding currentBuilding;
         private GridTile centerPreviewTile;
+        private GridTile lastHoveredTile;
         private List<GridTile> previewTiles = new();
         private List<GridTile> hoveredTiles = new();
         private Dictionary<Vector2, GridTile> previewTileMap = new();
         private Transform previewOffsetRoot;
         private GameObject buildingPreviewInstance;
 
-        private void Update()
+        private GameInputActions inputActions;
+        private int rotationStep = 0;
+        private int rotationIncrement => GridManager.Instance.LayoutType switch
         {
-            if (currentBuilding != null && Input.GetMouseButtonDown(0))
-                TryPlaceBuilding();
+            GridLayoutType.Square => 90,
+            GridLayoutType.HexFlatTop => 60,
+            GridLayoutType.HexPointyTop => 60,
+            _ => 90
+        };
+
+        private void OnEnable()
+        {
+            if (inputActions == null)
+            {
+                inputActions = new GameInputActions();
+                inputActions.Placement.RotateLeft.performed += ctx => RotatePreviewStep(-1);
+                inputActions.Placement.RotateRight.performed += ctx => RotatePreviewStep(1);
+            }
+
+            inputActions.Placement.Enable();
+        }
+
+        private void OnDisable()
+        {
+            inputActions?.Placement.Disable();
         }
 
         public void UpdatePreview(GridTile hoveredTile)
         {
+            lastHoveredTile = hoveredTile;
+
             if (currentBuilding == null || previewTiles.Count == 0) return;
 
             tilesTransform.gameObject.SetActive(true);
-
             tilesTransform.position = new Vector3(hoveredTile.transform.position.x, tilesTransform.position.y, hoveredTile.transform.position.z);
 
             hoveredTiles.Clear();
+
             bool canPlace = true;
+            List<bool> tileValidity = new();
 
             foreach (var previewTile in previewTiles)
             {
@@ -45,7 +76,10 @@ namespace GridSystem
                 var gridTile = GridManager.Instance.GetTileAtPosition(worldPos);
                 hoveredTiles.Add(gridTile);
 
-                if (gridTile == null || !gridTile.Walkable || gridTile.Occupied)
+                bool isValid = gridTile != null && gridTile.Walkable && !gridTile.Occupied;
+                tileValidity.Add(isValid);
+
+                if (!isValid)
                     canPlace = false;
             }
 
@@ -56,11 +90,14 @@ namespace GridSystem
                 var tile = previewTiles[i];
                 var renderer = tile.GetComponentInChildren<Renderer>();
                 if (renderer != null)
+                {
                     renderer.material = canPlace ? tilePreviewMaterialGreen : tilePreviewMaterialRed;
+                }
             }
 
             UpdateBuildingPreview();
         }
+
 
         public void GenerateGroupTile(IBuilding building)
         {
@@ -99,11 +136,14 @@ namespace GridSystem
 
             if (buildingPreviewInstance == null)
             {
-                buildingPreviewInstance = Instantiate(currentBuilding.Prefab);
+                buildingPreviewInstance = Instantiate(currentBuilding.Prefab, center, Quaternion.Euler(0f, rotationStep * rotationIncrement, 0f), tilesTransform);
                 DisablePreviewBehavior(buildingPreviewInstance);
             }
-
-            buildingPreviewInstance.transform.position = center;
+            else
+            {
+                buildingPreviewInstance.transform.position = center;
+                buildingPreviewInstance.transform.rotation = Quaternion.Euler(0f, rotationStep * rotationIncrement, 0f);
+            }
 
             foreach (var renderer in buildingPreviewInstance.GetComponentsInChildren<Renderer>())
             {
@@ -118,6 +158,15 @@ namespace GridSystem
 
             foreach (var mono in instance.GetComponentsInChildren<MonoBehaviour>())
                 mono.enabled = false;
+        }
+
+        private void RotatePreviewStep(int direction)
+        {
+            rotationStep += direction;
+            tilesTransform.rotation = Quaternion.Euler(0f, rotationStep * rotationIncrement, 0f);
+
+            if (lastHoveredTile != null)
+                UpdatePreview(lastHoveredTile);
         }
 
         public void TryPlaceBuilding()
@@ -162,7 +211,10 @@ namespace GridSystem
         private void InstantiateBuilding(Vector3 position)
         {
             if (currentBuilding != null)
-                BuildingFactory.Instance.CreateBuilding(currentBuilding, position);
+            {
+                var building = BuildingFactory.Instance.CreateBuilding(currentBuilding, position);
+                building.transform.rotation = Quaternion.Euler(0f, rotationStep * rotationIncrement, 0f);
+            }
         }
 
         private void ClearPreview()
@@ -179,6 +231,8 @@ namespace GridSystem
                 buildingPreviewInstance = null;
             }
 
+            tilesTransform.rotation = Quaternion.identity;
+            rotationStep = 0;
             currentBuilding = null;
             centerPreviewTile = null;
             previewTiles.Clear();

@@ -25,7 +25,7 @@ namespace GridSystem
         [SerializeField] private GridTile hexPointyPrefab;
 
         public Dictionary<Vector2, GridTile> Tiles { get; private set; }
-
+        public GridLayoutType LayoutType => layoutType;
         private GridTile originNode;
         private GridTile destinationNode;
 
