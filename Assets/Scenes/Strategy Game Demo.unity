@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 566f83055f1c8c1469c10e5ecdfbea27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layoutType: 1
+  layoutType: 0
   gridWidth: 16
   gridHeight: 9
   obstacleWeight: 4
@@ -316,7 +316,7 @@ Transform:
   m_GameObject: {fileID: 986029159}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -352,6 +352,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilesTransform: {fileID: 986029160}
+  tilePreviewMaterialGreen: {fileID: 2100000, guid: 798ff927ed55dd04ebdd13080d504481, type: 2}
+  tilePreviewMaterialRed: {fileID: 2100000, guid: ccadf975cf7e80c4f99f869695533234, type: 2}
+  buildingPreviewMaterial: {fileID: 2100000, guid: e1a3d84ea9152c34fad1da5492e6b8fa, type: 2}
 --- !u!4 &1061793023
 Transform:
   m_ObjectHideFlags: 0

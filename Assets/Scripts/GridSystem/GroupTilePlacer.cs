@@ -1,9 +1,6 @@
 using System.Collections.Generic;
-
 using Core.InstanceSystem;
-
 using Gameplay.Buildings;
-
 using UnityEngine;
 
 namespace GridSystem
@@ -13,6 +10,9 @@ namespace GridSystem
         public static GroupTilePlacer Instance => Instanced<GroupTilePlacer>.Instance;
 
         [SerializeField] private Transform tilesTransform;
+        [SerializeField] private Material tilePreviewMaterialGreen;
+        [SerializeField] private Material tilePreviewMaterialRed;
+        [SerializeField] private Material buildingPreviewMaterial;
 
         private IBuilding currentBuilding;
         private GridTile centerPreviewTile;
@@ -20,6 +20,7 @@ namespace GridSystem
         private List<GridTile> hoveredTiles = new();
         private Dictionary<Vector2, GridTile> previewTileMap = new();
         private Transform previewOffsetRoot;
+        private GameObject buildingPreviewInstance;
 
         private void Update()
         {
@@ -31,7 +32,9 @@ namespace GridSystem
         {
             if (currentBuilding == null || previewTiles.Count == 0) return;
 
-            tilesTransform.position = hoveredTile.transform.position;
+            tilesTransform.gameObject.SetActive(true);
+
+            tilesTransform.position = new Vector3(hoveredTile.transform.position.x, tilesTransform.position.y, hoveredTile.transform.position.z);
 
             hoveredTiles.Clear();
             bool canPlace = true;
@@ -48,9 +51,15 @@ namespace GridSystem
 
             for (int i = 0; i < previewTiles.Count; i++)
             {
-                if (hoveredTiles[i] != null)
-                    previewTiles[i].SetColor(canPlace ? Color.green : Color.red);
+                if (hoveredTiles[i] == null) continue;
+
+                var tile = previewTiles[i];
+                var renderer = tile.GetComponentInChildren<Renderer>();
+                if (renderer != null)
+                    renderer.material = canPlace ? tilePreviewMaterialGreen : tilePreviewMaterialRed;
             }
+
+            UpdateBuildingPreview();
         }
 
         public void GenerateGroupTile(IBuilding building)
@@ -71,6 +80,46 @@ namespace GridSystem
                 tile.SetColor(Color.red);
         }
 
+        private void UpdateBuildingPreview()
+        {
+            if (hoveredTiles.Count == 0) return;
+
+            Vector3 center = Vector3.zero;
+            int count = 0;
+
+            foreach (var tile in hoveredTiles)
+            {
+                if (tile == null) continue;
+                center += tile.transform.position;
+                count++;
+            }
+
+            if (count == 0) return;
+            center /= count;
+
+            if (buildingPreviewInstance == null)
+            {
+                buildingPreviewInstance = Instantiate(currentBuilding.Prefab);
+                DisablePreviewBehavior(buildingPreviewInstance);
+            }
+
+            buildingPreviewInstance.transform.position = center;
+
+            foreach (var renderer in buildingPreviewInstance.GetComponentsInChildren<Renderer>())
+            {
+                renderer.material = buildingPreviewMaterial;
+            }
+        }
+
+        private void DisablePreviewBehavior(GameObject instance)
+        {
+            foreach (var col in instance.GetComponentsInChildren<Collider>())
+                col.enabled = false;
+
+            foreach (var mono in instance.GetComponentsInChildren<MonoBehaviour>())
+                mono.enabled = false;
+        }
+
         public void TryPlaceBuilding()
         {
             if (hoveredTiles.Count == 0 || !IsPlacementValid())
@@ -85,7 +134,18 @@ namespace GridSystem
                 tile.RevertTile();
             }
 
-            InstantiateBuilding();
+            Vector3 center = Vector3.zero;
+            int count = 0;
+            foreach (var tile in hoveredTiles)
+            {
+                if (tile == null) continue;
+                center += tile.transform.position;
+                count++;
+            }
+
+            center /= count;
+
+            InstantiateBuilding(center);
             ClearPreview();
         }
 
@@ -99,10 +159,10 @@ namespace GridSystem
             return true;
         }
 
-        private void InstantiateBuilding()
+        private void InstantiateBuilding(Vector3 position)
         {
             if (currentBuilding != null)
-                BuildingFactory.Instance.CreateBuilding(currentBuilding, tilesTransform.position);
+                BuildingFactory.Instance.CreateBuilding(currentBuilding, position);
         }
 
         private void ClearPreview()
@@ -113,11 +173,18 @@ namespace GridSystem
             previewOffsetRoot = new GameObject("Offset").transform;
             previewOffsetRoot.SetParent(tilesTransform, false);
 
+            if (buildingPreviewInstance != null)
+            {
+                Destroy(buildingPreviewInstance);
+                buildingPreviewInstance = null;
+            }
+
             currentBuilding = null;
             centerPreviewTile = null;
             previewTiles.Clear();
             hoveredTiles.Clear();
             previewTileMap.Clear();
+            tilesTransform.gameObject.SetActive(false);
         }
 
         private int GetCenterTileIndex(Vector2Int size)
