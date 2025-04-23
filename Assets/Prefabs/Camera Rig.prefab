@@ -48,12 +48,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 7894827157702227383}
   targetPoint: {fileID: 3140588842201580751}
-  moveSpeed: 10
-  dragSpeed: 10
-  rotationSpeed: 0.1
-  zoomSpeed: 100
-  minZoom: 5
-  maxZoom: 50
+  moveSpeed: 50
+  dragSpeed: 5
+  baseZoom: 50
+  rotationSpeed: 0.05
+  zoomSpeed: 50
+  minZoom: 2
+  maxZoom: 10
 --- !u!1 &2956769976274622911
 GameObject:
   m_ObjectHideFlags: 0

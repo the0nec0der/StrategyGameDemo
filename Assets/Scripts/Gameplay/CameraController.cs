@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace Gameplay
 {
-    public class CameraController : MonoBehaviour, CameraControlActions.ICameraActions
+    public class CameraController : MonoBehaviour, GameInputActions.ICameraActions
     {
         [Header("References")]
         [SerializeField] private Transform cameraTransform;
@@ -12,6 +12,7 @@ namespace Gameplay
         [Header("Movement")]
         [SerializeField] private float moveSpeed = 10f;
         [SerializeField] private float dragSpeed = 1f;
+        [SerializeField] private float baseZoom = 10f;
 
         [Header("Rotation")]
         [SerializeField] private float rotationSpeed = 0.2f;
@@ -21,7 +22,7 @@ namespace Gameplay
         [SerializeField] private float minZoom = 5f;
         [SerializeField] private float maxZoom = 25f;
 
-        private CameraControlActions controls;
+        private GameInputActions controls;
         private Vector2 movementInput;
         private Vector2 zoomInput;
         private Camera mainCamera;
@@ -32,7 +33,7 @@ namespace Gameplay
         private void Awake()
         {
             mainCamera = cameraTransform.GetComponent<Camera>();
-            controls = new CameraControlActions();
+            controls = new GameInputActions();
             controls.Camera.SetCallbacks(this);
         }
 
@@ -55,10 +56,10 @@ namespace Gameplay
             Quaternion rotation = Quaternion.Euler(0f, yRotation, 0f);
 
             Vector3 inputDir = new Vector3(movementInput.x, 0f, movementInput.y);
-
             Vector3 worldDirection = rotation * inputDir;
 
-            transform.position += worldDirection * moveSpeed * Time.deltaTime;
+            float zoomFactor = mainCamera.orthographicSize / baseZoom;
+            transform.position += worldDirection * moveSpeed * zoomFactor * Time.deltaTime;
         }
 
         private void HandleMouseDrag()
@@ -66,14 +67,14 @@ namespace Gameplay
             if (!isRightClickHeld) return;
 
             Vector2 mouseDelta = Mouse.current.delta.ReadValue();
-
             Vector3 inputDir = new Vector3(-mouseDelta.x, 0f, -mouseDelta.y);
 
             float yRotation = transform.eulerAngles.y;
             Quaternion rotation = Quaternion.Euler(0f, yRotation, 0f);
             Vector3 worldDirection = rotation * inputDir;
 
-            transform.position += worldDirection * dragSpeed * Time.deltaTime;
+            float zoomFactor = mainCamera.orthographicSize / baseZoom;
+            transform.position += worldDirection * dragSpeed * zoomFactor * Time.deltaTime;
         }
 
         private void HandleRotation()
