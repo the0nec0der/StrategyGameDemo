@@ -22,10 +22,12 @@ namespace GridSystem
         private Color defaultColor;
 
         public bool Occupied { get; set; }
+        public bool IsPreview { get; set; }
 
-        public virtual void Init(bool walkable, ICoordinates coords)
+        public virtual void Init(bool walkable, bool isPreview, ICoordinates coords)
         {
             Walkable = walkable;
+            IsPreview = isPreview;
 
             tileSpriteRenderer.color = walkable ? walkableColor.Evaluate(Random.Range(0f, 1f)) : obstacleColor;
             defaultColor = tileSpriteRenderer.color;
@@ -47,7 +49,7 @@ namespace GridSystem
 
         private void OnMouseEnter()
         {
-            if (!Walkable) return;
+            if (!Walkable || IsPreview) return;
             OnHoverTile?.Invoke(this);
         }
 
