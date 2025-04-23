@@ -15,7 +15,6 @@ namespace GridSystem
 
         [Header("Grid Settings")]
         [SerializeField] private GridLayoutType layoutType;
-        [SerializeField] private GridOrientation orientation = GridOrientation.Horizontal;
         [SerializeField, Range(3, 50)] private int gridWidth = 16;
         [SerializeField, Range(3, 50)] private int gridHeight = 9;
         [SerializeField, Range(0, 6)] private int obstacleWeight = 3;
@@ -77,15 +76,11 @@ namespace GridSystem
 
         public GridTile GetTileAtPosition(Vector3 worldPos)
         {
+            Vector2 projected = new Vector2(worldPos.x, worldPos.z);
+
             foreach (var kvp in Tiles)
             {
-                Vector2 tilePos = kvp.Key;
-
-                Vector2 projectedWorldPos = orientation == GridOrientation.Horizontal
-                    ? new Vector2(worldPos.x, worldPos.z)
-                    : new Vector2(worldPos.x, worldPos.y);
-
-                if (Vector2.Distance(tilePos, projectedWorldPos) < 0.1f)
+                if (Vector2.Distance(kvp.Key, projected) < 0.1f)
                     return kvp.Value;
             }
 
@@ -111,10 +106,6 @@ namespace GridSystem
                     GenerateHexPointyTopGrid(tiles, gridParent.transform, gridWidth, gridHeight, isPreview);
                     break;
             }
-
-            gridParent.transform.rotation = orientation == GridOrientation.Horizontal
-                ? Quaternion.Euler(90f, 0f, 0f)
-                : Quaternion.identity;
 
             CacheAllNeighbors(tiles);
 

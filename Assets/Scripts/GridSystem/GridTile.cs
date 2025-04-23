@@ -37,7 +37,7 @@ namespace GridSystem
             OnTileHovered += TileHover;
 
             Coords = coords;
-            transform.position = Coords.Pos;
+            transform.position = new Vector3(coords.Pos.x, 0f, coords.Pos.y);
         }
 
         public static event Action<GridTile> OnTileHovered;
