@@ -21,7 +21,7 @@ MonoBehaviour:
     prefab: {fileID: 7274912245100025854, guid: 0166a56d26d89394c8991475c63858f2, type: 3}
     notes: 
   sizeData:
-    size: {x: 0, y: 0}
+    size: {x: 2, y: 2}
   defenseData:
     armor: 0
     resistance: 0
