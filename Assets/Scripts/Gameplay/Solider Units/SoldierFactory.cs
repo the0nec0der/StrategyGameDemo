@@ -10,29 +10,60 @@ namespace Gameplay.SoldierUnits
     {
         public static SoldierFactory Instance => Instanced<SoldierFactory>.Instance;
 
-        public void PrepareSoldierPool(SoldierData soldierData, int initialCount = 5)
+        [SerializeField] private Transform soldierRoot;
+
+        private void Awake()
         {
-            if (soldierData == null || soldierData.Prefab == null)
-            {
-                Debug.LogWarning("Invalid soldier data!");
+            if (Instance != this)
                 return;
-            }
 
-            var prefab = soldierData.Prefab.GetComponent<SoldierController>();
-            if (prefab == null)
+            if (soldierRoot == null)
             {
-                Debug.LogError("Soldier prefab does not have a SoldierController!");
-                return;
+                soldierRoot = new GameObject("Soldier_Root").transform;
+                soldierRoot.SetParent(transform, false);
             }
-
-            PoolManager.Instance.CreatePool(prefab, initialCount);
         }
 
-        public SoldierController CreateSoldier(SoldierData data, Vector3 position)
+        public void PrepareSoldierPool(ISoliderUnit data, int initialCount = 5)
         {
-            var soldier = PoolManager.Instance.Get<SoldierController>(position, Quaternion.identity);
+            if (!IsValid(data)) return;
+
+            var prefab = data.Prefab.GetComponent<SoldierController>() ?? data.Prefab.AddComponent<SoldierController>();
+            PoolManager.Instance.CreatePool(prefab, initialCount, soldierRoot);
+        }
+
+        public SoldierController CreateSoldier(ISoliderUnit data, Vector3 position)
+        {
+            if (!IsValid(data)) return null;
+
+            var prefab = data.Prefab.GetComponent<SoldierController>() ?? data.Prefab.AddComponent<SoldierController>();
+
+            var soldier = PoolManager.Instance.Get(prefab, position, Quaternion.identity);
+            soldier.transform.SetParent(soldierRoot, false);
             soldier.Initialize(data);
+
             return soldier;
+        }
+
+        private SoldierController GetOrAddController(ISoliderUnit data)
+        {
+            var controller = data.Prefab.GetComponent<SoldierController>();
+            if (controller == null)
+            {
+                Debug.LogWarning($"Soldier prefab '{data.Prefab.name}' missing SoldierController. Adding dynamically.");
+                controller = data.Prefab.AddComponent<SoldierController>();
+            }
+            return controller;
+        }
+
+        private bool IsValid(ISoliderUnit data)
+        {
+            if (data == null || data.Prefab == null)
+            {
+                Debug.LogWarning("Invalid soldier data.");
+                return false;
+            }
+            return true;
         }
     }
 }

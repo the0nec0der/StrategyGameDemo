@@ -56,6 +56,7 @@ namespace GridSystem
 
         private void OnTileSelected(GridTile selectedTile)
         {
+            GroupTilePlacer.Instance.TryPlaceBuilding();
             Debug.Log($"selected tile name: {selectedTile.transform.name} \n pos: {selectedTile.transform.position} --- {GetTileAtPosition(selectedTile.transform.position)?.gameObject.name}");
         }
 

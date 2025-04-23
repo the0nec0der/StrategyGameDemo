@@ -14,7 +14,7 @@ namespace Utilities.Pooling
 
         public void CreatePool<T>(T prefab, int size = 10, Transform parent = null) where T : MonoBehaviour
         {
-            string key = typeof(T).Name;
+            string key = GetPoolKey(prefab);
 
             if (_pools.ContainsKey(key))
                 return;
@@ -26,19 +26,18 @@ namespace Utilities.Pooling
                 parent = containerObj.transform;
             }
 
-            var pool = new Pool<T>(prefab, size, parent ?? transform);
+            var pool = new Pool<T>(prefab, size, parent);
             _pools[key] = pool;
         }
 
-        public T Get<T>(Vector3 position, Quaternion rotation) where T : MonoBehaviour
+        public T Get<T>(T prefab, Vector3 position, Quaternion rotation) where T : MonoBehaviour
         {
-            string key = typeof(T).Name;
+            string key = GetPoolKey(prefab);
 
-            if (_pools.TryGetValue(key, out var pool))
-                return ((Pool<T>)pool).Get(position, rotation);
+            if (!_pools.ContainsKey(key))
+                CreatePool(prefab, 1); // auto-create with default 1 if missing
 
-            Debug.LogError($"[PoolManager] No pool found for type {key}");
-            return null;
+            return ((Pool<T>)_pools[key]).Get(position, rotation);
         }
 
         public void Return<T>(T obj) where T : MonoBehaviour
@@ -54,6 +53,14 @@ namespace Utilities.Pooling
                 Debug.LogWarning($"[PoolManager] Returning object of type {key} which has no pool. Destroying it.");
                 Destroy(obj.gameObject);
             }
+        }
+        public bool HasPool<T>() where T : MonoBehaviour
+        {
+            return _pools.ContainsKey(typeof(T).Name);
+        }
+        private string GetPoolKey<T>(T prefab) where T : MonoBehaviour
+        {
+            return typeof(T).Name + "_" + prefab.name;
         }
     }
 }

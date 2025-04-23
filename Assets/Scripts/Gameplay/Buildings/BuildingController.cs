@@ -15,7 +15,7 @@ namespace Gameplay.Buildings
         public bool CanProduceUnits => producerData != null && producerData.CanProduceSoldiers;
         public Vector2Int Size => data.Size;
 
-        public void Initialize(BuildingData buildingData)
+        public void Initialize(IBuilding buildingData)
         {
             data = buildingData;
             producerData = buildingData as ProducerBuildingData;

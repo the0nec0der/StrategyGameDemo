@@ -6,12 +6,12 @@ namespace Gameplay.SoldierUnits
 {
     public class SoldierController : HealthEntity, IPoolable
     {
-        private SoldierData data;
+        private ISoliderUnit data;
 
         public string SoldierName => data.Name;
         public float Damage => data.Damage;
 
-        public void Initialize(SoldierData soldierData)
+        public void Initialize(ISoliderUnit soldierData)
         {
             data = soldierData;
             InitializeMaxHP(data.MaxHealth);

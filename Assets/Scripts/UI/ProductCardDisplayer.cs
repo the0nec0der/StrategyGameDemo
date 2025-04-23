@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-
 using Gameplay.Product;
-
 using UnityEngine;
-
 using Utilities.Pooling;
 
 namespace UI
@@ -32,7 +29,7 @@ namespace UI
                 }
                 else
                 {
-                    card = PoolManager.Instance.Get<ProductCard>(Vector3.zero, Quaternion.identity);
+                    card = PoolManager.Instance.Get(prefab, Vector3.zero, Quaternion.identity);
                     card.transform.SetParent(parent, false);
                     cardList.Add(card);
                 }
