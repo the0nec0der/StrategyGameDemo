@@ -1,6 +1,8 @@
 using Gameplay.Product;
 using Gameplay.StatSystem;
 
+using GridSystem;
+
 using UnityEngine;
 
 namespace Gameplay.SoldierUnits
@@ -16,6 +18,9 @@ namespace Gameplay.SoldierUnits
         [SerializeField] private DefenseData defenseData;
         [SerializeField] private HealthData healthData;
         [SerializeField] private RangeData rangeData;
+
+        [Header("Tile Component")]
+        [SerializeField] private TileColorData tileColorData;
 
         // Product
         public string Id => productData.Id;
@@ -39,5 +44,8 @@ namespace Gameplay.SoldierUnits
 
         // Range
         public GridRangePattern AttackPattern => rangeData.AttackPattern;
+
+        // Tile Color
+        public Gradient OccupiedGradient => tileColorData.OccupiedGradient;
     }
 }

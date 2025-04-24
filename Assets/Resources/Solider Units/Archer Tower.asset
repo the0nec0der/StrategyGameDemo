@@ -15,7 +15,8 @@ MonoBehaviour:
   productData:
     id: 7e9bf171-6187-4c3d-8740-08331b0c5c4f
     productName: Archer Tower
-    description: 
+    description: A stationary defense unit that automatically targets enemies within
+      range. Great for holding strategic locations.
     icon: {fileID: 391603290628544396, guid: 0e8717a9bcab944459299f0e1b921793, type: 3}
     prefab: {fileID: 1704814526276628741, guid: 024c9cabd27358649b96af1884e0bbc0, type: 3}
     notes: 
@@ -34,3 +35,34 @@ MonoBehaviour:
       minRange: 1
       maxRange: 2
       excludedOffsets: []
+  tileColorData:
+    occupiedGradient:
+      serializedVersion: 2
+      key0: {r: 0.48235297, g: 0.45098042, b: 0.32941177, a: 1}
+      key1: {r: 0.47058827, g: 0.2392157, b: 0.10196079, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: -1
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
