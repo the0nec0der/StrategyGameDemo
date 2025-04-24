@@ -5,6 +5,8 @@ using Core.InstanceSystem;
 
 using Enums;
 
+using PlacingSystem;
+
 using UnityEngine;
 
 namespace GridSystem
@@ -55,7 +57,7 @@ namespace GridSystem
 
         private void OnTileSelected(GridTile selectedTile)
         {
-            GroupTilePlacer.Instance.TryPlaceBuilding();
+            BuildingPlacer.Instance.OnConfirmPlacement();
             Debug.Log($"selected tile name: {selectedTile.transform.name} \n pos: {selectedTile.transform.position} --- {GetTileAtPosition(selectedTile.transform.position)?.gameObject.name}");
         }
 
@@ -67,7 +69,7 @@ namespace GridSystem
                 tile.RevertTile();
 
             // var path = Pathfinding.FindPath(originNode, destinationNode);
-            GroupTilePlacer.Instance.UpdatePreview(hoveredTile);
+            BuildingPlacer.Instance.OnTileHovered(hoveredTile);
             // foreach (var neighbor in hoveredTile.Neighbors)
             // {
             //     Debug.Log(neighbor.gameObject.name);

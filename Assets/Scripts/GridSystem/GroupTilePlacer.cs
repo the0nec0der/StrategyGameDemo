@@ -1,20 +1,15 @@
 using System.Collections.Generic;
 
-using Core.InstanceSystem;
-
 using Enums;
 
 using Gameplay.Buildings;
 
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace GridSystem
 {
     public class GroupTilePlacer : MonoBehaviour
     {
-        public static GroupTilePlacer Instance => Instanced<GroupTilePlacer>.Instance;
-
         [SerializeField] private Transform tilesTransform;
         [SerializeField] private Material tilePreviewMaterialGreen;
         [SerializeField] private Material tilePreviewMaterialRed;

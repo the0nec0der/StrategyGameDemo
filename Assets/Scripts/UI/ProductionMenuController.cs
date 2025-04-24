@@ -5,6 +5,7 @@ using Core.InstanceSystem;
 using Gameplay.Buildings;
 using Gameplay.Product;
 using GridSystem;
+using PlacingSystem;
 using UnityEngine;
 
 using Utilities;
@@ -17,7 +18,7 @@ namespace UI
         [SerializeField] private Transform contentParent;
 
         private BuildingInformationMenuController BuildingInformationMenuController = null;
-        private GroupTilePlacer GridTileGroupPlacer = null;
+        private BuildingPlacer BuildingPlacer = null;
         private ProductCardDisplayer ProductCardDisplayer = null;
         private List<ProductCard> activeCards = new();
 
@@ -33,7 +34,7 @@ namespace UI
             EnsureCardDisplayerAssigned();
 
             BuildingInformationMenuController = Instanced<BuildingInformationMenuController>.Instance;
-            GridTileGroupPlacer = Instanced<GroupTilePlacer>.Instance;
+            BuildingPlacer = Instanced<BuildingPlacer>.Instance;
 
             IProduct[] products = ResourceLoader.LoadAllFromResources<IProduct, BuildingData>();
 
@@ -46,7 +47,7 @@ namespace UI
                 (product) => () =>
                 {
                     BuildingInformationMenuController.SetBuildingInformationPanel(product as IBuilding);
-                    GridTileGroupPlacer.GenerateGroupTile(product as IBuilding);
+                    BuildingPlacer.StartPlacingBuilding(product as IBuilding);
                     CloseMenu();
                 }
             );

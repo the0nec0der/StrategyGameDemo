@@ -332,6 +332,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1061793023}
   - component: {fileID: 1061793022}
+  - component: {fileID: 1061793024}
   m_Layer: 0
   m_Name: Group Tile Placer
   m_TagString: Untagged
@@ -346,7 +347,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1061793021}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e20a25b6ae68b1444be456637dcd850a, type: 3}
   m_Name: 
@@ -371,6 +372,26 @@ Transform:
   - {fileID: 986029160}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1061793024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1061793021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcb86a53bfd3c0940b20fd106de74a85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilesTransform: {fileID: 986029160}
+  productPreviewMaterialTransparent: {fileID: 2100000, guid: e1a3d84ea9152c34fad1da5492e6b8fa, type: 2}
+  tilePreviewMaterialGreen:
+    serializedVersion: 2
+    rgba: 2153218392
+  tilePreviewMaterialRed:
+    serializedVersion: 2
+    rgba: 2153339332
 --- !u!1 &1084266254
 GameObject:
   m_ObjectHideFlags: 0
