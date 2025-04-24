@@ -1394,6 +1394,10 @@ PrefabInstance:
       value: Building Information Menu Controller
       objectReference: {fileID: 0}
     - target: {fileID: 8049100776020183987, guid: 2809ad4259c2aa6499255662e31f4959, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8049100776020183987, guid: 2809ad4259c2aa6499255662e31f4959, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
       objectReference: {fileID: 0}

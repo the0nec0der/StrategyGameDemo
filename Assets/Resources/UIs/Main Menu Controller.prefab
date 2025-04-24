@@ -974,7 +974,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6541159935775843881, guid: 2809ad4259c2aa6499255662e31f4959, type: 3}
       propertyPath: m_Name
-      value: Main Menu Controller Variant
+      value: Main Menu Controller
       objectReference: {fileID: 0}
     - target: {fileID: 6986291594616825637, guid: 2809ad4259c2aa6499255662e31f4959, type: 3}
       propertyPath: m_Color.a
@@ -991,6 +991,10 @@ PrefabInstance:
     - target: {fileID: 6986291594616825637, guid: 2809ad4259c2aa6499255662e31f4959, type: 3}
       propertyPath: m_Color.r
       value: 0.34509805
+      objectReference: {fileID: 0}
+    - target: {fileID: 8049100776020183987, guid: 2809ad4259c2aa6499255662e31f4959, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8725139366871278697, guid: 2809ad4259c2aa6499255662e31f4959, type: 3}
       propertyPath: m_AnchorMax.y
