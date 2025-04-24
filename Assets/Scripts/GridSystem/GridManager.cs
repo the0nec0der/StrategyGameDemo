@@ -37,15 +37,14 @@ namespace GridSystem
                 return;
         }
 
-        private void Start()
+        public void InitializeGrid()
         {
             Tiles = GenerateGrid(gridWidth: gridWidth, gridHeight: gridHeight);
+            GameStateManager.Instance.SetState(GameStateType.Idle);
+        }
 
-            originNode = Tiles
-                .Where(t => t.Value.Walkable)
-                .OrderBy(_ => Random.value)
-                .First().Value;
-
+        private void OnEnable()
+        {
             GridTile.OnTileHovered += OnTileHovered;
             GridTile.OnTileSelected += OnTileSelected;
         }

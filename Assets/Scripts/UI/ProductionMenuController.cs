@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-
+using Gameplay;
 using Gameplay.Buildings;
 using Gameplay.Product;
 
@@ -43,6 +43,13 @@ namespace UI
                 }
             );
         }
+
+        protected override void MenuClosed()
+        {
+            base.MenuClosed();
+            GameStateManager.Instance.SetState(Enums.GameStateType.Idle);
+        }
+
         private void EnsureCardDisplayerAssigned()
         {
             ProductCardDisplayer = ProductCardDisplayer != null ? ProductCardDisplayer : GetComponent<ProductCardDisplayer>() ?? gameObject.AddComponent<ProductCardDisplayer>();

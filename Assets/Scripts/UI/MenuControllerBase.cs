@@ -43,6 +43,7 @@ namespace UI
                 {
                     canvas.worldCamera = mainCam;
                     canvas.renderMode = RenderMode.ScreenSpaceCamera;
+                    canvas.planeDistance = 10;
                 }
             }
 

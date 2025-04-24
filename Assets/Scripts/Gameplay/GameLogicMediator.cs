@@ -2,6 +2,7 @@ using Core.InstanceSystem;
 using Gameplay.Buildings;
 using Gameplay.SoldierUnits;
 using GridSystem;
+using Misc;
 using PlacingSystem;
 using SaveSystem;
 
@@ -22,6 +23,7 @@ public class GameLogicMediator : MonoBehaviour
     public BuildingFactory BuildingFactory { get; private set; }
     public SoldierPlacer SoldierPlacer { get; private set; }
     public SoldierFactory SoldierFactory { get; private set; }
+    public TransitionController TransitionController { get; private set; }
     public ProductionMenuController ProductionMenuController { get; private set; }
     public BuildingInformationMenuController BuildingInformationMenuController { get; private set; }
 
@@ -43,6 +45,7 @@ public class GameLogicMediator : MonoBehaviour
         SoldierPlacer = Instanced<SoldierPlacer>.Instance;
         SoldierFactory = Instanced<SoldierFactory>.Instance;
 
+        TransitionController = Instanced<TransitionController>.Instance;
         BuildingInformationMenuController = Instanced<BuildingInformationMenuController>.Instance;
         ProductionMenuController = Instanced<ProductionMenuController>.Instance;
         SettingsMenuController = Instanced<SettingsMenuController>.Instance;
