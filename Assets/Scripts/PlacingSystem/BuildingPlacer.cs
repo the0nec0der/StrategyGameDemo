@@ -14,6 +14,7 @@ namespace PlacingSystem
         private IBuilding currentBuilding;
 
         private GameStateManager GameStateManager => GameStateManager.Instance;
+        private GameLogicMediator GameLogicMediator => GameLogicMediator.Instance;
         private GridManager GridManager => GridManager.Instance;
 
         public void StartPlacingBuilding(IBuilding building)
@@ -85,7 +86,7 @@ namespace PlacingSystem
 
             Vector3 center = GetCenterOfPreviewTiles();
 
-            var building = GameLogicMediator.Instance.BuildingFactory.CreateBuilding(currentBuilding, center);
+            var building = GameLogicMediator.BuildingFactory.CreateBuilding(currentBuilding, center);
             building.transform.rotation = Quaternion.Euler(0f, rotationStep * RotationIncrement, 0f);
             ClearPreview();
 

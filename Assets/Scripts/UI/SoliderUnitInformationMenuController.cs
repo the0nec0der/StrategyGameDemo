@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-
-using Gameplay.Buildings;
 using Gameplay.SoldierUnits;
 
 using TMPro;
@@ -47,8 +44,8 @@ public class SoliderUnitInformationMenuController : MenuControllerBase
             placeSoliderUnitButton.onClick.RemoveAllListeners();
             placeSoliderUnitButton.onClick.AddListener(() =>
             {
-                // GameLogicMediator.SoldierPlacer.(soliderUnit);
-                GameLogicMediator.ProductionMenuController.CloseMenu();
+                GameLogicMediator.SoldierPlacer.StartPlacingSoldier(soliderUnit);
+                GameLogicMediator.BuildingInformationMenuController.CloseMenu();
                 CloseMenu();
             });
 
