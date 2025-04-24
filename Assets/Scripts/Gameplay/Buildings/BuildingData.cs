@@ -1,6 +1,6 @@
 using Gameplay.Product;
 using Gameplay.StatSystem;
-
+using GridSystem;
 using UnityEngine;
 
 namespace Gameplay.Buildings
@@ -12,9 +12,12 @@ namespace Gameplay.Buildings
         [SerializeField] private ProductData productData;
 
         [Header("Stat Components")]
-        [SerializeField] private SizeData sizeData;
         [SerializeField] private DefenseData defenseData;
         [SerializeField] private HealthData healthData;
+
+        [Header("Tile Components")]
+        [SerializeField] private SizeData sizeData;
+        [SerializeField] private TileColorData tileColorData;
 
         // Product
         public string Id => productData.Id;
@@ -32,5 +35,8 @@ namespace Gameplay.Buildings
 
         // Health Stat
         public float MaxHealth => healthData.MaxHealth;
+
+        // Tile Color
+        public Gradient OccupiedGradient => tileColorData.OccupiedGradient;
     }
 }

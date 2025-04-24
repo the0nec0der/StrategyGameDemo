@@ -66,7 +66,12 @@ namespace GridSystem
             destinationNode = hoveredTile;
 
             foreach (var tile in Tiles.Values)
-                tile.RevertTile();
+            {
+                if (!tile.Occupied)
+                {
+                    tile.RevertTile();
+                }
+            }
 
             // var path = Pathfinding.FindPath(originNode, destinationNode);
             BuildingPlacer.Instance.OnTileHovered(hoveredTile);

@@ -20,13 +20,44 @@ MonoBehaviour:
     icon: {fileID: 1765351576224072635, guid: 6dc780130bb52da46bb49e526a1c5e7f, type: 3}
     prefab: {fileID: 3571912312444767646, guid: 6e370f50faeb20849adda7b4ef5dc3bd, type: 3}
     notes: 
-  sizeData:
-    size: {x: 3, y: 3}
   defenseData:
     armor: 0
     resistance: 0
   healthData:
     maxHealth: 200
+  sizeData:
+    size: {x: 3, y: 3}
+  tileColorData:
+    occupiedGradient:
+      serializedVersion: 2
+      key0: {r: 0.54901963, g: 0.45882356, b: 0.32156864, a: 1}
+      key1: {r: 0.16078432, g: 0.13725491, b: 0.0627451, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: -1
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
   producibleSoldiers:
   - {fileID: 11400000, guid: cd17ddd82796696479acd51522502eaa, type: 2}
   - {fileID: 11400000, guid: 351d795b9885f4f4badd358ccb1345ee, type: 2}

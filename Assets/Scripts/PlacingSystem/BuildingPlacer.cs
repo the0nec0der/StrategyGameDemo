@@ -80,9 +80,12 @@ namespace PlacingSystem
             if (!base.OnConfirmPlacement())
                 return false;
 
+            SeTilesColor(currentBuilding.OccupiedGradient.Evaluate(Random.Range(0f, 1f)));
+
             Vector3 center = GetCenterOfPreviewTiles();
 
-            BuildingFactory.Instance.CreateBuilding(currentBuilding, center);
+            var building = BuildingFactory.Instance.CreateBuilding(currentBuilding, center);
+            building.transform.rotation = Quaternion.Euler(0f, rotationStep * RotationIncrement, 0f);
             ClearPreview();
 
             return true;
