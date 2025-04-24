@@ -43,16 +43,14 @@ namespace PlacingSystem
             }
         }
 
-        public override bool OnConfirmPlacement()
+        public override void OnConfirmPlacement()
         {
-            if (!base.OnConfirmPlacement())
-                return false;
+            if (!IsPlacementValid()) return;
 
             var tile = hoveredTiles[0];
             tile.Occupied = true;
             GameLogicMediator.Instance.SoldierFactory.CreateSoldier(currentSoldier, tile.transform.position);
             ClearPreview();
-            return true;
         }
 
         public override void ClearPreview()

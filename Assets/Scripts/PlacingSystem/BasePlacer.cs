@@ -79,15 +79,7 @@ namespace PlacingSystem
             tilesTransform.gameObject.SetActive(false);
         }
 
-        public virtual bool OnConfirmPlacement()
-        {
-            if (!IsPlacementValid()) return false;
-
-            foreach (var tile in hoveredTiles)
-                tile.Occupied = true;
-
-            return true;
-        }
+        public abstract void OnConfirmPlacement();
 
         public abstract void OnTileHovered(GridTile tile);
         protected abstract void UpdatePreview();

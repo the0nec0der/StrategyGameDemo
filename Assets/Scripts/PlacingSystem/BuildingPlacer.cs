@@ -71,10 +71,15 @@ namespace PlacingSystem
                 renderer.material = productPreviewMaterialTransparent;
         }
 
-        public override bool OnConfirmPlacement()
+        public override void OnConfirmPlacement()
         {
-            if (!base.OnConfirmPlacement())
-                return false;
+            if (!IsPlacementValid()) return;
+
+            foreach (var tile in hoveredTiles)
+            {
+                tile.Occupied = true;
+                tile.Product = currentBuilding;
+            }
 
             SeTilesColor(currentBuilding.OccupiedGradient.Evaluate(Random.Range(0f, 1f)));
 
@@ -86,7 +91,6 @@ namespace PlacingSystem
 
             GameStateManager.SetState(Enums.GameStateType.Idle);
             OnPlacementConfirmed?.Invoke();
-            return true;
         }
 
         public override void ClearPreview()

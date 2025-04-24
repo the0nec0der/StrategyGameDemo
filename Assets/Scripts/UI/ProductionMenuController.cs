@@ -18,6 +18,7 @@ namespace UI
         private List<ProductCard> activeCards = new();
 
         private GameStateManager GameStateManager => GameStateManager.Instance;
+        private GameLogicMediator GameLogicMediator => GameLogicMediator.Instance;
 
         protected override void Awake()
         {
@@ -40,19 +41,10 @@ namespace UI
                 30,
                 (product) => () =>
                 {
-                    GameLogicMediator.Instance.BuildingInformationMenuController.SetBuildingInformationPanel(product as IBuilding);
+                    GameLogicMediator.BuildingInformationMenuController.SetInformationPanel(product as IBuilding);
                     // CloseMenu();
                 }
             );
-        }
-
-        public void CloseMenuOnUI()
-        {
-            if (GameStateManager.PreviousState == null)
-                GameStateManager.SetState(Enums.GameStateType.Idle);
-            else
-                GameStateManager.Instance.RestorePreviousState();
-            CloseMenu();
         }
 
         protected override void MenuClosed()

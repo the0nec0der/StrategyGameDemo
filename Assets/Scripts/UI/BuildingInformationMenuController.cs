@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
 using Gameplay.Buildings;
+using Gameplay.SoldierUnits;
 
 using TMPro;
 
@@ -36,7 +37,7 @@ public class BuildingInformationMenuController : MenuControllerBase
         EnsureCardDisplayerAssigned();
     }
 
-    public void SetBuildingInformationPanel(IBuilding building)
+    public void SetInformationPanel(IBuilding building, bool isPlaced = false)
     {
         if (building is null or not IBuilding)
             return;
@@ -47,15 +48,23 @@ public class BuildingInformationMenuController : MenuControllerBase
         buildingDescription.text = building.Description;
         buildingIconImage.sprite = building.Icon;
 
-        placeBuildingButton.onClick.RemoveAllListeners();
-        placeBuildingButton.onClick.AddListener(() =>
+        if (!isPlaced)
         {
-            GameLogicMediator.BuildingPlacer.StartPlacingBuilding(building);
-            GameLogicMediator.ProductionMenuController.CloseMenu();
-            CloseMenu();
-        });
-        placeBuildingImage.sprite = building.Icon;
-        placeBuildingText.text = $"Place The {building.Name}";
+            placeBuildingButton.onClick.RemoveAllListeners();
+            placeBuildingButton.onClick.AddListener(() =>
+            {
+                GameLogicMediator.BuildingPlacer.StartPlacingBuilding(building);
+                GameLogicMediator.ProductionMenuController.CloseMenu();
+                CloseMenu();
+            });
+
+            placeBuildingImage.sprite = building.Icon;
+            placeBuildingText.text = $"Place The {building.Name}";
+
+            placeBuildingButton.gameObject.SetActive(true);
+        }
+        else
+            placeBuildingButton.gameObject.SetActive(false);
 
         if (building is IProducerBuilding producerBuilding)
         {
@@ -66,7 +75,14 @@ public class BuildingInformationMenuController : MenuControllerBase
                 producerBuilding.ProducibleSoldiers,
                 productCardPrefab,
                 produciblesContentTransform,
-                10
+                10,
+               onClickCard: isPlaced ? (product) => () =>
+                {
+                    if (!isPlaced) return;
+                    GameLogicMediator.Instance.SoliderUnitInformationMenuController.SetInformationPanel(product as ISoliderUnit);
+                    // CloseMenu();
+                }
+            : null
             );
         }
         else
@@ -77,6 +93,7 @@ public class BuildingInformationMenuController : MenuControllerBase
 
         OpenMenu();
     }
+
     private void EnsureCardDisplayerAssigned()
     {
         cardDisplayer = cardDisplayer != null ? cardDisplayer : GetComponent<ProductCardDisplayer>() ?? gameObject.AddComponent<ProductCardDisplayer>();

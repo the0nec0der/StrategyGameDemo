@@ -4,7 +4,10 @@ using System.Linq;
 using Core.InstanceSystem;
 
 using Enums;
+
 using Gameplay;
+using Gameplay.Buildings;
+using Gameplay.SoldierUnits;
 using PlacingSystem;
 
 using UnityEngine;
@@ -31,6 +34,9 @@ namespace GridSystem
         private GridTile originNode;
         private GridTile destinationNode;
 
+        private GameLogicMediator GameLogicMediator => GameLogicMediator.Instance;
+        private GameStateManager GameStateManager => GameStateManager.Instance;
+
         private void Awake()
         {
             if (Instance != this)
@@ -56,19 +62,28 @@ namespace GridSystem
 
         private void OnTileSelected(GridTile selectedTile)
         {
-            if (GameStateManager.Instance.IsState(GameStateType.BuildingPlacement))
-                GameLogicMediator.Instance.BuildingPlacer.OnConfirmPlacement();
+            if (GameStateManager.IsState(GameStateType.BuildingPlacement))
+                GameLogicMediator.BuildingPlacer.OnConfirmPlacement();
 
-            if (GameStateManager.Instance.IsState(GameStateType.Idle))
-                Debug.Log($"selected tile name: {selectedTile.transform.name} \n pos: {selectedTile.transform.position} --- {GetTileAtPosition(selectedTile.transform.position)?.gameObject.name}");
+            if (GameStateManager.IsState(GameStateType.Idle))
+            {
+                if (selectedTile.Product != null)
+                {
+                    if (selectedTile.Product is IBuilding building)
+                        GameLogicMediator.BuildingInformationMenuController.SetInformationPanel(building, true);
+                    else if (selectedTile.Product is ISoliderUnit soliderUnit)
+                        // GameLogicMediator.BuildingInformationMenuController.SetBuildingInformationPanel(soliderUnit);
+                        Debug.Log($"selected tile name: {selectedTile.transform.name} \n pos: {selectedTile.transform.position} --- {GetTileAtPosition(selectedTile.transform.position)?.gameObject.name}");
+                }
+            }
 
-            if (GameStateManager.Instance.IsState(GameStateType.SoldierPlacement))
-                GameLogicMediator.Instance.SoldierPlacer.OnConfirmPlacement();
+            if (GameStateManager.IsState(GameStateType.SoldierPlacement))
+                GameLogicMediator.SoldierPlacer.OnConfirmPlacement();
         }
 
         private void OnTileHovered(GridTile hoveredTile)
         {
-            if (GameStateManager.Instance.IsState(GameStateType.BuildingPlacement))
+            if (GameStateManager.IsState(GameStateType.BuildingPlacement))
             {
                 foreach (var tile in Tiles.Values)
                 {
@@ -77,10 +92,10 @@ namespace GridSystem
                         tile.RevertTile();
                     }
                 }
-                GameLogicMediator.Instance.BuildingPlacer.OnTileHovered(hoveredTile);
+                GameLogicMediator.BuildingPlacer.OnTileHovered(hoveredTile);
             }
 
-            if (GameStateManager.Instance.IsState(GameStateType.MoveCommand))
+            if (GameStateManager.IsState(GameStateType.MoveCommand))
             {
                 if (originNode != null)
                     Pathfinding.FindPath(originNode, hoveredTile);

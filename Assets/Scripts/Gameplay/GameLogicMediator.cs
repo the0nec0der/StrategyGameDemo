@@ -32,6 +32,7 @@ public class GameLogicMediator : MonoBehaviour
     public MainMenuController MainMenuController { get; private set; }
     public ProductionMenuController ProductionMenuController { get; private set; }
     public BuildingInformationMenuController BuildingInformationMenuController { get; private set; }
+    public SoliderUnitInformationMenuController SoliderUnitInformationMenuController { get; private set; }
 
     public SettingsMenuController SettingsMenuController { get; private set; }
 
@@ -54,6 +55,7 @@ public class GameLogicMediator : MonoBehaviour
         TransitionController = Instanced<TransitionController>.Instance;
         MainMenuController = Instanced<MainMenuController>.Instance;
         BuildingInformationMenuController = Instanced<BuildingInformationMenuController>.Instance;
+        SoliderUnitInformationMenuController = Instanced<SoliderUnitInformationMenuController>.Instance;
         ProductionMenuController = Instanced<ProductionMenuController>.Instance;
         SettingsMenuController = Instanced<SettingsMenuController>.Instance;
 

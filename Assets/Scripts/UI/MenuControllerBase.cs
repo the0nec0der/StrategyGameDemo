@@ -86,6 +86,15 @@ namespace UI
             MenuClosed();
         }
 
+        public void CloseMenuOnUI()
+        {
+            if (GameStateManager.PreviousState == null)
+                GameStateManager.SetState(Enums.GameStateType.Idle);
+            else
+                GameStateManager.RestorePreviousState();
+            CloseMenu();
+        }
+
         protected virtual void MenuOpened()
         {
             RefreshLayouts();

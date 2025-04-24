@@ -1379,7 +1379,7 @@ PrefabInstance:
       objectReference: {fileID: 4971039115836603389}
     - target: {fileID: 4344102058596076935, guid: 2809ad4259c2aa6499255662e31f4959, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: CloseMenu
+      value: CloseMenuOnUI
       objectReference: {fileID: 0}
     - target: {fileID: 4344102058596076935, guid: 2809ad4259c2aa6499255662e31f4959, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName

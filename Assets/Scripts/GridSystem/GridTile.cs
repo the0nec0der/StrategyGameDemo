@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-
+using Gameplay.Product;
 using UnityEngine;
 
 using Random = UnityEngine.Random;
@@ -16,13 +16,13 @@ namespace GridSystem
         public ICoordinates Coords;
         public float GetDistance(GridTile other) => Coords.GetDistance(other.Coords);
         public bool Walkable { get; private set; }
-        private bool occupied = false;
 
         private bool selected;
         private Color defaultColor;
 
         public bool Occupied { get; set; }
         public bool IsPreview { get; set; }
+        public IProduct Product { get; set; }
 
         public virtual void Init(bool walkable, bool isPreview, ICoordinates coords)
         {
