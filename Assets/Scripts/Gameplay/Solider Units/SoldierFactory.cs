@@ -1,5 +1,3 @@
-using Core.InstanceSystem;
-
 using UnityEngine;
 
 using Utilities.Pooling;
@@ -8,15 +6,10 @@ namespace Gameplay.SoldierUnits
 {
     public class SoldierFactory : MonoBehaviour
     {
-        public static SoldierFactory Instance => Instanced<SoldierFactory>.Instance;
-
         [SerializeField] private Transform soldierRoot;
 
         private void Awake()
         {
-            if (Instance != this)
-                return;
-
             if (soldierRoot == null)
             {
                 soldierRoot = new GameObject("Soldier_Root").transform;

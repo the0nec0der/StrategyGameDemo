@@ -8,14 +8,6 @@ namespace Gameplay.Buildings
 {
     public class BuildingFactory : MonoBehaviour
     {
-        public static BuildingFactory Instance => Instanced<BuildingFactory>.Instance;
-
-        private void Awake()
-        {
-            if (Instance != this)
-                return;
-        }
-
         public void PrepareBuildingPool(IBuilding buildingData, int initialCount = 5)
         {
             if (!IsValid(buildingData)) return;

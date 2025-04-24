@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 
-using Core.InstanceSystem;
-
 using Gameplay.Buildings;
 
 using GridSystem;
@@ -12,16 +10,7 @@ namespace PlacingSystem
 {
     public class BuildingPlacer : BasePlacer<IBuilding>
     {
-        public static BuildingPlacer Instance => Instanced<BuildingPlacer>.Instance;
         private IBuilding currentBuilding;
-
-        private void Awake()
-        {
-            if (Instance != null)
-            {
-                return;
-            }
-        }
 
         public void StartPlacingBuilding(IBuilding building)
         {
@@ -84,7 +73,7 @@ namespace PlacingSystem
 
             Vector3 center = GetCenterOfPreviewTiles();
 
-            var building = BuildingFactory.Instance.CreateBuilding(currentBuilding, center);
+            var building = GameLogicMediator.Instance.BuildingFactory.CreateBuilding(currentBuilding, center);
             building.transform.rotation = Quaternion.Euler(0f, rotationStep * RotationIncrement, 0f);
             ClearPreview();
 

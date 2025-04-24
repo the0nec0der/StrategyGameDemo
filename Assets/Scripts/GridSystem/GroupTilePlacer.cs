@@ -207,8 +207,8 @@ namespace GridSystem
         {
             if (currentBuilding != null)
             {
-                var building = BuildingFactory.Instance.CreateBuilding(currentBuilding, position);
-                building.transform.rotation = Quaternion.Euler(0f, rotationStep * rotationIncrement, 0f);
+                // var building = BuildingFactory.Instance.CreateBuilding(currentBuilding, position);
+                // building.transform.rotation = Quaternion.Euler(0f, rotationStep * rotationIncrement, 0f);
             }
         }
 

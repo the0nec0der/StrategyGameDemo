@@ -1,5 +1,8 @@
 using Core.InstanceSystem;
+using Gameplay.Buildings;
+using Gameplay.SoldierUnits;
 using GridSystem;
+using PlacingSystem;
 using SaveSystem;
 
 using SettingSystem;
@@ -15,6 +18,11 @@ public class GameLogicMediator : MonoBehaviour
     public SaveManager SaveManager { get; private set; }
     public AudioManager AudioManager { get; private set; }
     public GridManager GridManager { get; private set; }
+    public BuildingPlacer BuildingPlacer { get; private set; }
+    public BuildingFactory BuildingFactory { get; private set; }
+    public SoldierPlacer SoldierPlacer { get; private set; }
+    public SoldierFactory SoldierFactory { get; private set; }
+    public BuildingInformationMenuController BuildingInformationMenuController { get; private set; }
 
     public SettingsMenuController SettingsMenuController { get; private set; }
 
@@ -25,8 +33,16 @@ public class GameLogicMediator : MonoBehaviour
 
         SaveManager = Instanced<SaveManager>.Instance;
         AudioManager = Instanced<AudioManager>.Instance;
+
         GridManager = Instanced<GridManager>.Instance;
 
+        BuildingPlacer = Instanced<BuildingPlacer>.Instance;
+        BuildingFactory = Instanced<BuildingFactory>.Instance;
+
+        SoldierPlacer = Instanced<SoldierPlacer>.Instance;
+        SoldierFactory = Instanced<SoldierFactory>.Instance;
+
+        BuildingInformationMenuController = Instanced<BuildingInformationMenuController>.Instance;
         SettingsMenuController = Instanced<SettingsMenuController>.Instance;
 
         LoadGameData();

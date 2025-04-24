@@ -20,7 +20,7 @@ namespace UI
 
         private void OnEnable()
         {
-            AudioManager = Instanced<AudioManager>.Instance;
+            AudioManager = GameLogicMediator.Instance.AudioManager;
 
             SubscribeToEvents();
         }
@@ -34,7 +34,7 @@ namespace UI
         protected override void MenuOpened()
         {
             base.MenuOpened();
-            AudioManager = Instanced<AudioManager>.Instance;
+            AudioManager = GameLogicMediator.Instance.AudioManager;
             InitializeUI();
         }
 

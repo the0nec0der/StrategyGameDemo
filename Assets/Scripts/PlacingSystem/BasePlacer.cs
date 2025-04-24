@@ -89,6 +89,8 @@ namespace PlacingSystem
 
         protected void RotatePreviewStep(int direction)
         {
+            if (tilesTransform == null) return;
+
             rotationStep += direction;
             tilesTransform.rotation = Quaternion.Euler(0f, rotationStep * RotationIncrement, 0f);
 

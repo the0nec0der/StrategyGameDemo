@@ -57,7 +57,7 @@ namespace GridSystem
 
         private void OnTileSelected(GridTile selectedTile)
         {
-            BuildingPlacer.Instance.OnConfirmPlacement();
+            GameLogicMediator.Instance.BuildingPlacer.OnConfirmPlacement();
             Debug.Log($"selected tile name: {selectedTile.transform.name} \n pos: {selectedTile.transform.position} --- {GetTileAtPosition(selectedTile.transform.position)?.gameObject.name}");
         }
 
@@ -74,7 +74,7 @@ namespace GridSystem
             }
 
             // var path = Pathfinding.FindPath(originNode, destinationNode);
-            BuildingPlacer.Instance.OnTileHovered(hoveredTile);
+            GameLogicMediator.Instance.BuildingPlacer.OnTileHovered(hoveredTile);
             // foreach (var neighbor in hoveredTile.Neighbors)
             // {
             //     Debug.Log(neighbor.gameObject.name);
