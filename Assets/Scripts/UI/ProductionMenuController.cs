@@ -47,7 +47,6 @@ namespace UI
         protected override void MenuClosed()
         {
             base.MenuClosed();
-            GameStateManager.Instance.SetState(Enums.GameStateType.Idle);
         }
 
         private void EnsureCardDisplayerAssigned()
