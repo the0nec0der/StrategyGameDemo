@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 
 using EditorHelper;
+
 using Gameplay;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +14,7 @@ namespace UI
     public abstract class MenuControllerBase : MonoBehaviour, IMenuController
     {
         [SerializeField] private bool activeOnStart = false;
+        [SerializeField] private bool isScreenSpaceRenderModOn = true;
 
         public event IMenuController.MenuOpenedDelegate OnMenuOpened;
         public event IMenuController.MenuClosedDelegate OnMenuClosed;
@@ -31,6 +34,16 @@ namespace UI
                 OnMenuOpened?.Invoke(this);
 
                 MenuOpened();
+            }
+
+            if (isScreenSpaceRenderModOn)
+            {
+                Camera mainCam = Camera.main;
+                if (mainCam != null)
+                {
+                    canvas.worldCamera = mainCam;
+                    canvas.renderMode = RenderMode.ScreenSpaceCamera;
+                }
             }
 
             canvas.enabled = activeOnStart;

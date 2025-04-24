@@ -39,8 +39,7 @@ namespace UI
                 (product) => () =>
                 {
                     GameLogicMediator.Instance.BuildingInformationMenuController.SetBuildingInformationPanel(product as IBuilding);
-                    GameLogicMediator.Instance.BuildingPlacer.StartPlacingBuilding(product as IBuilding);
-                    CloseMenu();
+                    // CloseMenu();
                 }
             );
         }

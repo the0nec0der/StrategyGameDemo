@@ -15,6 +15,11 @@ public class BuildingInformationMenuController : MenuControllerBase
     [SerializeField] private TMP_Text buildingDescription;
     [SerializeField] private Image buildingIconImage;
 
+    [Header("Placing UI")]
+    [SerializeField] private Button placeBuildingButton;
+    [SerializeField] private TMP_Text placeBuildingText;
+    [SerializeField] private Image placeBuildingImage;
+
     [Header("Producer UI")]
     [SerializeField] private Transform produciblesMenuTransform;
     [SerializeField] private Transform produciblesContentTransform;
@@ -40,6 +45,16 @@ public class BuildingInformationMenuController : MenuControllerBase
         buildingName.text = building.Name;
         buildingDescription.text = building.Description;
         buildingIconImage.sprite = building.Icon;
+
+        placeBuildingButton.onClick.RemoveAllListeners();
+        placeBuildingButton.onClick.AddListener(() =>
+        {
+            GameLogicMediator.Instance.BuildingPlacer.StartPlacingBuilding(building);
+            GameLogicMediator.Instance.ProductionMenuController.CloseMenu();
+            CloseMenu();
+        });
+        placeBuildingImage.sprite = building.Icon;
+        placeBuildingText.text = $"Place The {building.Name}";
 
         if (building is IProducerBuilding producerBuilding)
         {

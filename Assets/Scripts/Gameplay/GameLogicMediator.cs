@@ -22,6 +22,7 @@ public class GameLogicMediator : MonoBehaviour
     public BuildingFactory BuildingFactory { get; private set; }
     public SoldierPlacer SoldierPlacer { get; private set; }
     public SoldierFactory SoldierFactory { get; private set; }
+    public ProductionMenuController ProductionMenuController { get; private set; }
     public BuildingInformationMenuController BuildingInformationMenuController { get; private set; }
 
     public SettingsMenuController SettingsMenuController { get; private set; }
@@ -43,6 +44,7 @@ public class GameLogicMediator : MonoBehaviour
         SoldierFactory = Instanced<SoldierFactory>.Instance;
 
         BuildingInformationMenuController = Instanced<BuildingInformationMenuController>.Instance;
+        ProductionMenuController = Instanced<ProductionMenuController>.Instance;
         SettingsMenuController = Instanced<SettingsMenuController>.Instance;
 
         LoadGameData();

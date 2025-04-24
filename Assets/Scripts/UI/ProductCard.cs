@@ -29,10 +29,19 @@ namespace UI
             productName.text = product?.Name;
             productIcon.sprite = product?.Icon;
 
-            onClickAction = onClick;
 
-            productButton.onClick.RemoveAllListeners();
-            productButton.onClick.AddListener(() => onClickAction?.Invoke());
+            if (onClick != null)
+            {
+                onClickAction = onClick;
+
+                productButton.interactable = true;
+                productButton.onClick.RemoveAllListeners();
+                productButton.onClick.AddListener(() => onClickAction?.Invoke());
+            }
+            else
+            {
+                productButton.interactable = false;
+            }
         }
 
         private void ClearCard()
