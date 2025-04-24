@@ -13,12 +13,6 @@ namespace PlacingSystem
     {
         private IBuilding currentBuilding;
 
-        protected override void OnDisable()
-        {
-            base.OnDisable();
-            ClearPreview();
-        }
-
         public void StartPlacingBuilding(IBuilding building)
         {
             GameStateManager.Instance.SetState(Enums.GameStateType.BuildingPlacement);

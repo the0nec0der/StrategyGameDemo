@@ -2,6 +2,7 @@ using Core.InstanceSystem;
 
 using Enums;
 
+using System;
 using UnityEngine;
 
 namespace Gameplay
@@ -12,20 +13,41 @@ namespace Gameplay
 
         public GameStateType CurrentState { get; private set; } = GameStateType.Idle;
 
+        public event Action<GameStateType> OnGameStateChanged;
+
+        private GameStateType? previousState = null;
+
         private void Awake()
         {
-            if (Instance != null) return;
+            if (Instance != null && Instance != this)
+                Destroy(gameObject);
         }
 
-        public void SetState(GameStateType newState)
+        public void SetState(GameStateType newState, bool storePrevious = false)
         {
-            if (CurrentState == newState) return;
+            if (CurrentState == newState)
+                return;
+
+            if (storePrevious)
+            {
+                if (CurrentState != GameStateType.UI && CurrentState != GameStateType.Idle)
+                    previousState = CurrentState;
+            }
 
             ExitState(CurrentState);
             CurrentState = newState;
             EnterState(CurrentState);
 
-            Debug.Log($"Game state changed to: {CurrentState}");
+            OnGameStateChanged?.Invoke(CurrentState);
+        }
+
+        public void RestorePreviousState()
+        {
+            if (previousState.HasValue)
+            {
+                SetState(previousState.Value);
+                previousState = null;
+            }
         }
 
         private void EnterState(GameStateType state)
@@ -69,5 +91,4 @@ namespace Gameplay
 
         public bool IsState(GameStateType state) => CurrentState == state;
     }
-
 }

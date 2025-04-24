@@ -833,11 +833,11 @@ PrefabInstance:
       objectReference: {fileID: 7177985346372692933}
     - target: {fileID: 4344102058596076935, guid: 2809ad4259c2aa6499255662e31f4959, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: CloseMenuOnUI
+      value: CloseMenu
       objectReference: {fileID: 0}
     - target: {fileID: 4344102058596076935, guid: 2809ad4259c2aa6499255662e31f4959, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UI.ProductionMenuController, Assembly-CSharp
+      value: UI.MenuControllerBase, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 4344102058596076935, guid: 2809ad4259c2aa6499255662e31f4959, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

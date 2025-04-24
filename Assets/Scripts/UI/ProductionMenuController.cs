@@ -23,12 +23,6 @@ namespace UI
             EnsureCardDisplayerAssigned();
         }
 
-        public void CloseMenuOnUI()
-        {
-            CloseMenu();
-            GameStateManager.Instance.SetState(Enums.GameStateType.Idle);
-        }
-
         protected override void MenuOpened()
         {
             base.MenuOpened();

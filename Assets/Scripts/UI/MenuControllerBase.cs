@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 using EditorHelper;
 
+using Enums;
+
 using Gameplay;
 
 using UnityEngine;
@@ -24,6 +26,8 @@ namespace UI
         private Action onMenuClosedCallback = null;
 
         public bool IsOpen => canvas != null && canvas.enabled;
+
+        private GameStateManager GameStateManager => GameStateManager.Instance;
 
         protected virtual void Awake()
         {
@@ -59,7 +63,7 @@ namespace UI
 
             MenuOpened();
 
-            GameStateManager.Instance.SetState(Enums.GameStateType.UI);
+            GameStateManager.SetState(GameStateType.UI, true);
 
             OnMenuOpened?.Invoke(this);
             canvas.enabled = true;
@@ -69,6 +73,8 @@ namespace UI
         public void CloseMenu()
         {
             if (!IsOpen) return;
+
+            GameStateManager.RestorePreviousState();
 
             Action tempOnMenuClosedCallback = onMenuClosedCallback;
             onMenuClosedCallback = null;
