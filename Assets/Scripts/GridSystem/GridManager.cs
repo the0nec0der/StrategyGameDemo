@@ -4,7 +4,7 @@ using System.Linq;
 using Core.InstanceSystem;
 
 using Enums;
-
+using Gameplay;
 using PlacingSystem;
 
 using UnityEngine;
@@ -57,28 +57,35 @@ namespace GridSystem
 
         private void OnTileSelected(GridTile selectedTile)
         {
-            GameLogicMediator.Instance.BuildingPlacer.OnConfirmPlacement();
-            Debug.Log($"selected tile name: {selectedTile.transform.name} \n pos: {selectedTile.transform.position} --- {GetTileAtPosition(selectedTile.transform.position)?.gameObject.name}");
+            if (GameStateManager.Instance.IsState(GameStateType.BuildingPlacement))
+                GameLogicMediator.Instance.BuildingPlacer.OnConfirmPlacement();
+
+            if (GameStateManager.Instance.IsState(GameStateType.Idle))
+                Debug.Log($"selected tile name: {selectedTile.transform.name} \n pos: {selectedTile.transform.position} --- {GetTileAtPosition(selectedTile.transform.position)?.gameObject.name}");
+
+            if (GameStateManager.Instance.IsState(GameStateType.SoldierPlacement))
+                GameLogicMediator.Instance.SoldierPlacer.OnConfirmPlacement();
         }
 
         private void OnTileHovered(GridTile hoveredTile)
         {
-            destinationNode = hoveredTile;
-
-            foreach (var tile in Tiles.Values)
+            if (GameStateManager.Instance.IsState(GameStateType.BuildingPlacement))
             {
-                if (!tile.Occupied)
+                foreach (var tile in Tiles.Values)
                 {
-                    tile.RevertTile();
+                    if (!tile.Occupied)
+                    {
+                        tile.RevertTile();
+                    }
                 }
+                GameLogicMediator.Instance.BuildingPlacer.OnTileHovered(hoveredTile);
             }
 
-            // var path = Pathfinding.FindPath(originNode, destinationNode);
-            GameLogicMediator.Instance.BuildingPlacer.OnTileHovered(hoveredTile);
-            // foreach (var neighbor in hoveredTile.Neighbors)
-            // {
-            //     Debug.Log(neighbor.gameObject.name);
-            // }
+            if (GameStateManager.Instance.IsState(GameStateType.MoveCommand))
+            {
+                if (originNode != null)
+                    Pathfinding.FindPath(originNode, hoveredTile);
+            }
         }
 
         public GridTile GetTileAtPosition(Vector3 worldPos)

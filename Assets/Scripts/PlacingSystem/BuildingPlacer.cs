@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 
+using Gameplay;
 using Gameplay.Buildings;
 
 using GridSystem;
@@ -12,8 +13,16 @@ namespace PlacingSystem
     {
         private IBuilding currentBuilding;
 
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            ClearPreview();
+        }
+
         public void StartPlacingBuilding(IBuilding building)
         {
+            GameStateManager.Instance.SetState(Enums.GameStateType.BuildingPlacement);
+
             ClearPreview();
 
             currentBuilding = building;
@@ -77,6 +86,7 @@ namespace PlacingSystem
             building.transform.rotation = Quaternion.Euler(0f, rotationStep * RotationIncrement, 0f);
             ClearPreview();
 
+            GameStateManager.Instance.SetState(Enums.GameStateType.Idle);
             return true;
         }
 

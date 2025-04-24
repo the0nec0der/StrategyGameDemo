@@ -49,6 +49,7 @@ namespace PlacingSystem
         {
             inputActions?.Placement.Disable();
         }
+
         protected virtual void ClearPreview()
         {
             if (productPreviewInstance != null)
@@ -73,6 +74,7 @@ namespace PlacingSystem
             previewTileMap.Clear();
             tilesTransform.gameObject.SetActive(false);
         }
+
         public virtual bool OnConfirmPlacement()
         {
             if (!IsPlacementValid()) return false;

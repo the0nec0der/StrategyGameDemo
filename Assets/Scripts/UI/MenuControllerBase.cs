@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using EditorHelper;
-
+using Gameplay;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -44,6 +44,8 @@ namespace UI
             this.onMenuClosedCallback = onMenuClosedCallback;
 
             MenuOpened();
+
+            GameStateManager.Instance.SetState(Enums.GameStateType.UI);
 
             OnMenuOpened?.Invoke(this);
             canvas.enabled = true;

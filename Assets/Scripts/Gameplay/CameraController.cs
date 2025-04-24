@@ -42,6 +42,8 @@ namespace Gameplay
 
         private void Update()
         {
+            if (GameStateManager.Instance.IsState(Enums.GameStateType.UI))
+                return;
             HandleKeyboardMovement();
             HandleMouseDrag();
             HandleRotation();
