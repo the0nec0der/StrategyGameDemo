@@ -17,6 +17,8 @@ namespace UI
         private ProductCardDisplayer ProductCardDisplayer = null;
         private List<ProductCard> activeCards = new();
 
+        private GameStateManager GameStateManager => GameStateManager.Instance;
+
         protected override void Awake()
         {
             base.Awake();
@@ -42,6 +44,15 @@ namespace UI
                     // CloseMenu();
                 }
             );
+        }
+
+        public void CloseMenuOnUI()
+        {
+            if (GameStateManager.PreviousState == null)
+                GameStateManager.SetState(Enums.GameStateType.Idle);
+            else
+                GameStateManager.Instance.RestorePreviousState();
+            CloseMenu();
         }
 
         protected override void MenuClosed()

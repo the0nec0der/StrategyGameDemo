@@ -13,14 +13,17 @@ namespace PlacingSystem
     {
         private IBuilding currentBuilding;
 
+        private GameStateManager GameStateManager => GameStateManager.Instance;
+        private GridManager GridManager => GridManager.Instance;
+
         public void StartPlacingBuilding(IBuilding building)
         {
-            GameStateManager.Instance.SetState(Enums.GameStateType.BuildingPlacement);
+            GameStateManager.SetState(Enums.GameStateType.BuildingPlacement);
 
             ClearPreview();
 
             currentBuilding = building;
-            previewTileMap = GridManager.Instance.GenerateGrid(previewOffsetRoot, building.Size.x, building.Size.y, isPreview: true);
+            previewTileMap = GridManager.GenerateGrid(previewOffsetRoot, building.Size.x, building.Size.y, isPreview: true);
             previewTiles = new List<GridTile>(previewTileMap.Values);
 
             if (previewTiles.Count == 0) return;
@@ -28,6 +31,7 @@ namespace PlacingSystem
             centerPreviewTile = previewTiles[GetCenterTileIndex(building.Size)];
             Vector3 localCenter = tilesTransform.InverseTransformPoint(centerPreviewTile.transform.position);
             previewOffsetRoot.localPosition = -localCenter;
+            OnProductConfirmed?.Invoke(ClearPreview);
         }
 
         public override void OnTileHovered(GridTile tile)
@@ -38,7 +42,7 @@ namespace PlacingSystem
             hoveredTiles.Clear();
             foreach (var previewTile in previewTiles)
             {
-                var gridTile = GridManager.Instance.GetTileAtPosition(previewTile.transform.position);
+                var gridTile = GridManager.GetTileAtPosition(previewTile.transform.position);
                 hoveredTiles.Add(gridTile);
             }
 
@@ -80,11 +84,12 @@ namespace PlacingSystem
             building.transform.rotation = Quaternion.Euler(0f, rotationStep * RotationIncrement, 0f);
             ClearPreview();
 
-            GameStateManager.Instance.SetState(Enums.GameStateType.Idle);
+            GameStateManager.SetState(Enums.GameStateType.Idle);
+            OnPlacementConfirmed?.Invoke();
             return true;
         }
 
-        protected override void ClearPreview()
+        public override void ClearPreview()
         {
             base.ClearPreview();
             currentBuilding = null;

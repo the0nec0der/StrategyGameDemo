@@ -55,7 +55,7 @@ namespace PlacingSystem
             return true;
         }
 
-        protected override void ClearPreview()
+        public override void ClearPreview()
         {
             if (previewInstance != null)
             {

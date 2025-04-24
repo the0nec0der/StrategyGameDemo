@@ -12,6 +12,7 @@ namespace Gameplay
         public static GameStateManager Instance => Instanced<GameStateManager>.Instance;
 
         public GameStateType CurrentState { get; private set; } = GameStateType.Idle;
+        public GameStateType? PreviousState => previousState;
 
         public event Action<GameStateType> OnGameStateChanged;
 

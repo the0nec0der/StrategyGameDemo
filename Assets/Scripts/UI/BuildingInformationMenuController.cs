@@ -25,6 +25,7 @@ public class BuildingInformationMenuController : MenuControllerBase
     [SerializeField] private Transform produciblesContentTransform;
     [SerializeField] private ProductCard productCardPrefab;
 
+    private GameLogicMediator GameLogicMediator => GameLogicMediator.Instance;
     private ProductCardDisplayer cardDisplayer = null;
     private readonly List<ProductCard> activeCards = new();
 
@@ -49,8 +50,8 @@ public class BuildingInformationMenuController : MenuControllerBase
         placeBuildingButton.onClick.RemoveAllListeners();
         placeBuildingButton.onClick.AddListener(() =>
         {
-            GameLogicMediator.Instance.BuildingPlacer.StartPlacingBuilding(building);
-            GameLogicMediator.Instance.ProductionMenuController.CloseMenu();
+            GameLogicMediator.BuildingPlacer.StartPlacingBuilding(building);
+            GameLogicMediator.ProductionMenuController.CloseMenu();
             CloseMenu();
         });
         placeBuildingImage.sprite = building.Icon;

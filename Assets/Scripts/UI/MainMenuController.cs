@@ -1,10 +1,12 @@
+using System;
 using Gameplay;
 
 using GridSystem;
 
 using Misc;
-
+using PlacingSystem;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI
 {
@@ -15,14 +17,31 @@ namespace UI
         [SerializeField] private GameObject gameMenu;
         [SerializeField] private GameObject pauseMenu;
 
+        [Header("Game Menu Components")]
+        [SerializeField] private Button cancelButton;
+
         private GameLogicMediator GameLogicMediator => GameLogicMediator.Instance;
         private GameStateManager GameStateManager => GameStateManager.Instance;
         private TransitionController TransitionController => GameLogicMediator.TransitionController;
+        private BuildingPlacer BuildingPlacer => GameLogicMediator.BuildingPlacer;
+
+        private Action cancelButtonAction = null;
 
         protected override void Awake()
         {
             base.Awake();
             SetMenuState(main: true, pause: false, game: false);
+        }
+
+        private void OnEnable()
+        {
+            BuildingPlacer.OnPlacementConfirmed += DisableCancelButton;
+            BuildingPlacer.OnProductConfirmed += action => ShowCancelButton(action);
+        }
+        private void OnDisable()
+        {
+            BuildingPlacer.OnPlacementConfirmed -= DisableCancelButton;
+            BuildingPlacer.OnProductConfirmed -= action => ShowCancelButton(action);
         }
 
         public void PlayGame()
@@ -45,6 +64,28 @@ namespace UI
         {
             GameStateManager.SetState(Enums.GameStateType.UI, true);
             SetMenuState(main: false, pause: true, game: false);
+        }
+
+        public void ShowCancelButton(Action action)
+        {
+            cancelButtonAction = action;
+            if (cancelButtonAction != null)
+            {
+                cancelButton.gameObject.SetActive(true);
+                cancelButton.onClick.RemoveAllListeners();
+                cancelButton.onClick.AddListener(() =>
+                {
+                    cancelButtonAction?.Invoke();
+                    DisableCancelButton();
+                });
+            }
+        }
+
+        private void DisableCancelButton()
+        {
+            cancelButtonAction = null;
+            cancelButton.gameObject.SetActive(false);
+            cancelButton.onClick.RemoveAllListeners();
         }
 
         public void OpenSettings() => GameLogicMediator.SettingsMenuController.OpenMenu();

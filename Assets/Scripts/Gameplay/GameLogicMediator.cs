@@ -1,9 +1,14 @@
 using Core.InstanceSystem;
+
 using Gameplay.Buildings;
 using Gameplay.SoldierUnits;
+
 using GridSystem;
+
 using Misc;
+
 using PlacingSystem;
+
 using SaveSystem;
 
 using SettingSystem;
@@ -30,7 +35,7 @@ public class GameLogicMediator : MonoBehaviour
 
     public SettingsMenuController SettingsMenuController { get; private set; }
 
-    private void Start()
+    private void Awake()
     {
         if (Instance != this)
             return;

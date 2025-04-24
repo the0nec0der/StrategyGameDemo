@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace Gameplay
@@ -44,6 +45,10 @@ namespace Gameplay
         {
             if (GameStateManager.Instance.IsState(Enums.GameStateType.UI))
                 return;
+
+            if (IsPointerOverUI())
+                return;
+
             HandleKeyboardMovement();
             HandleMouseDrag();
             HandleRotation();
@@ -117,6 +122,10 @@ namespace Gameplay
         public void OnZoomCamera(InputAction.CallbackContext context)
         {
             zoomInput = context.ReadValue<Vector2>();
+        }
+        private bool IsPointerOverUI()
+        {
+            return EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using Enums;
@@ -33,6 +34,9 @@ namespace PlacingSystem
             _ => 90
         };
 
+        public Action OnPlacementConfirmed = null;
+        public Action<Action> OnProductConfirmed = null;
+
         protected virtual void OnEnable()
         {
             if (inputActions == null)
@@ -50,7 +54,7 @@ namespace PlacingSystem
             inputActions?.Placement.Disable();
         }
 
-        protected virtual void ClearPreview()
+        public virtual void ClearPreview()
         {
             if (productPreviewInstance != null)
             {
