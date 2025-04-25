@@ -50,6 +50,10 @@ namespace UI
             {
                 ResumeGame();
                 GridManager.Instance.InitializeGrid();
+
+                Vector3 center = GridManager.Instance.GetGridCenterWorldPosition();
+                GameLogicMediator.CameraController.CenterCamera(center);
+
                 TransitionController.FadeFromBlack(1f, 0f);
             });
         }

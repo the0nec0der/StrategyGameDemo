@@ -247,6 +247,24 @@ namespace GridSystem
             }
         }
 
+        public Vector3 GetGridCenterWorldPosition()
+        {
+            if (Tiles == null || Tiles.Count == 0)
+                return Vector3.zero;
+
+            var positions = Tiles.Values.Select(t => t.transform.position).ToList();
+            Vector3 min = positions[0];
+            Vector3 max = positions[0];
+
+            foreach (var pos in positions)
+            {
+                min = Vector3.Min(min, pos);
+                max = Vector3.Max(max, pos);
+            }
+
+            return (min + max) / 2f;
+        }
+
         private bool DecideIfObstacle(bool isPreview)
         {
             if (isPreview)

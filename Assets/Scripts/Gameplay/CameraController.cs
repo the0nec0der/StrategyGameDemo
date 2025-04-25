@@ -123,6 +123,12 @@ namespace Gameplay
         {
             zoomInput = context.ReadValue<Vector2>();
         }
+
+        public void CenterCamera(Vector3 centerPoint)
+        {
+            transform.position = new Vector3(centerPoint.x, transform.position.y, centerPoint.z);
+        }
+
         private bool IsPointerOverUI()
         {
             return EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();

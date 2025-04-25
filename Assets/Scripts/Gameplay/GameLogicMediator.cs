@@ -1,5 +1,5 @@
 using Core.InstanceSystem;
-
+using Gameplay;
 using Gameplay.Buildings;
 using Gameplay.SoldierUnits;
 
@@ -24,6 +24,7 @@ public class GameLogicMediator : MonoBehaviour
     public SaveManager SaveManager { get; private set; }
     public AudioManager AudioManager { get; private set; }
     public GridManager GridManager { get; private set; }
+    public CameraController CameraController { get; private set; }
     public BuildingPlacer BuildingPlacer { get; private set; }
     public BuildingFactory BuildingFactory { get; private set; }
     public SoldierPlacer SoldierPlacer { get; private set; }
@@ -45,6 +46,8 @@ public class GameLogicMediator : MonoBehaviour
         AudioManager = Instanced<AudioManager>.Instance;
 
         GridManager = Instanced<GridManager>.Instance;
+
+        CameraController = Instanced<CameraController>.Instance;
 
         BuildingPlacer = Instanced<BuildingPlacer>.Instance;
         BuildingFactory = Instanced<BuildingFactory>.Instance;
