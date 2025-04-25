@@ -865,6 +865,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6541159935775843881, guid: 2809ad4259c2aa6499255662e31f4959, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7177985346372692933}
+    - targetCorrespondingSourceObject: {fileID: 6541159935775843881, guid: 2809ad4259c2aa6499255662e31f4959, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 627339720955158822}
   m_SourcePrefab: {fileID: 100100000, guid: 2809ad4259c2aa6499255662e31f4959, type: 3}
 --- !u!224 &1216380429929676061 stripped
 RectTransform:
@@ -892,3 +895,15 @@ MonoBehaviour:
   isScreenSpaceRenderModOn: 1
   productCardPrefab: {fileID: 462059274341274071, guid: 5b46450310abeda4ea3fb4b458287b64, type: 3}
   contentParent: {fileID: 7343371016532567481}
+--- !u!114 &627339720955158822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5145828264567306027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53817962982d7b84c99cae0115882861, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
