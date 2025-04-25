@@ -58,7 +58,10 @@ public class GameLogicMediator : MonoBehaviour
         SoliderUnitInformationMenuController = Instanced<SoliderUnitInformationMenuController>.Instance;
         ProductionMenuController = Instanced<ProductionMenuController>.Instance;
         SettingsMenuController = Instanced<SettingsMenuController>.Instance;
+    }
 
+    private void Start()
+    {
         LoadGameData();
     }
 

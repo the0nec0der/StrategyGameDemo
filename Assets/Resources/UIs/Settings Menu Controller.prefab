@@ -908,8 +908,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2567828311121327430, guid: 304915b3a758f4d98a2962b5f61b339e, type: 3}
       propertyPath: m_Name
-      value: Button Square - Blue (Teal)
+      value: Close Button
       objectReference: {fileID: 0}
+    - target: {fileID: 2567828311121327448, guid: 304915b3a758f4d98a2962b5f61b339e, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -4508390533331396627, guid: c23131181934470429432313f329327f, type: 2}
     - target: {fileID: 2567828311121327449, guid: 304915b3a758f4d98a2962b5f61b339e, type: 3}
       propertyPath: m_Pivot.x
       value: 1
