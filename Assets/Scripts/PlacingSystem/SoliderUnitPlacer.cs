@@ -13,14 +13,9 @@ namespace PlacingSystem
     {
         private ISoliderUnit currentSoldier;
 
-        private GameStateManager GameStateManager => GameStateManager.Instance;
-        private GameLogicMediator GameLogicMediator => GameLogicMediator.Instance;
-        private GridManager GridManager => GridManager.Instance;
-
         public void StartPlacingSoldier(ISoliderUnit soldier)
         {
             GameStateManager.SetState(Enums.GameStateType.SoldierPlacement);
-
             ClearPreview();
 
             currentSoldier = soldier;
@@ -29,10 +24,8 @@ namespace PlacingSystem
 
             if (previewTiles.Count == 0) return;
 
-            centerPreviewTile = previewTiles[0]; // Only one tile used
-            Vector3 localCenter = tilesTransform.InverseTransformPoint(centerPreviewTile.transform.position);
-            previewOffsetRoot.localPosition = -localCenter;
-
+            centerPreviewTile = previewTiles[0];
+            previewOffsetRoot.localPosition = -tilesTransform.InverseTransformPoint(centerPreviewTile.transform.position);
             OnProductConfirmed?.Invoke(ClearPreview);
         }
 
@@ -42,8 +35,7 @@ namespace PlacingSystem
             tilesTransform.position = new Vector3(tile.transform.position.x, tilesTransform.position.y, tile.transform.position.z);
 
             hoveredTiles.Clear();
-            var gridTile = GridManager.GetTileAtPosition(tile.transform.position);
-            hoveredTiles.Add(gridTile);
+            hoveredTiles.Add(GridManager.GetTileAtPosition(tile.transform.position));
 
             HighlightTiles(IsPlacementValid());
             UpdatePreview();
@@ -54,20 +46,7 @@ namespace PlacingSystem
             if (hoveredTiles.Count == 0) return;
 
             tilesTransform.gameObject.SetActive(true);
-
-            Vector3 center = hoveredTiles[0].transform.position;
-
-            if (productPreviewInstance == null)
-            {
-                productPreviewInstance = Instantiate(currentSoldier.Prefab, center, Quaternion.Euler(0f, rotationStep * RotationIncrement, 0f), tilesTransform);
-                DisablePreviewBehavior(productPreviewInstance);
-            }
-
-            productPreviewInstance.transform.position = center;
-            productPreviewInstance.transform.rotation = Quaternion.Euler(0f, rotationStep * RotationIncrement, 0f);
-
-            foreach (var renderer in productPreviewInstance.GetComponentsInChildren<Renderer>())
-                renderer.material = productPreviewMaterialTransparent;
+            CreateOrUpdatePreviewInstance(currentSoldier, hoveredTiles[0].transform.position);
         }
 
         public override void OnConfirmPlacement()
@@ -80,8 +59,8 @@ namespace PlacingSystem
 
             SeTilesColor(currentSoldier.OccupiedGradient.Evaluate(Random.Range(0f, 1f)));
 
-            var soliderUnit = GameLogicMediator.SoldierFactory.CreateSoldier(currentSoldier, tile.transform.position);
-            soliderUnit.transform.rotation = Quaternion.Euler(0f, rotationStep * RotationIncrement, 0f);
+            var soldierUnit = GameLogicMediator.SoldierFactory.CreateSoldier(currentSoldier, tile.transform.position);
+            soldierUnit.transform.rotation = Quaternion.Euler(0f, rotationStep * RotationIncrement, 0f);
             ClearPreview();
 
             GameStateManager.SetState(Enums.GameStateType.Idle);
@@ -92,15 +71,6 @@ namespace PlacingSystem
         {
             base.ClearPreview();
             currentSoldier = null;
-        }
-
-        protected override void DisablePreviewBehavior(GameObject instance)
-        {
-            foreach (var col in instance.GetComponentsInChildren<Collider>())
-                col.enabled = false;
-
-            foreach (var mono in instance.GetComponentsInChildren<MonoBehaviour>())
-                mono.enabled = false;
         }
     }
 }

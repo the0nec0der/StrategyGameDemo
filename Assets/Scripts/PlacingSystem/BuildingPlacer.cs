@@ -13,14 +13,9 @@ namespace PlacingSystem
     {
         private IBuilding currentBuilding;
 
-        private GameStateManager GameStateManager => GameStateManager.Instance;
-        private GameLogicMediator GameLogicMediator => GameLogicMediator.Instance;
-        private GridManager GridManager => GridManager.Instance;
-
         public void StartPlacingBuilding(IBuilding building)
         {
             GameStateManager.SetState(Enums.GameStateType.BuildingPlacement);
-
             ClearPreview();
 
             currentBuilding = building;
@@ -30,8 +25,7 @@ namespace PlacingSystem
             if (previewTiles.Count == 0) return;
 
             centerPreviewTile = previewTiles[GetCenterTileIndex(building.Size)];
-            Vector3 localCenter = tilesTransform.InverseTransformPoint(centerPreviewTile.transform.position);
-            previewOffsetRoot.localPosition = -localCenter;
+            previewOffsetRoot.localPosition = -tilesTransform.InverseTransformPoint(centerPreviewTile.transform.position);
             OnProductConfirmed?.Invoke(ClearPreview);
         }
 
@@ -42,10 +36,7 @@ namespace PlacingSystem
 
             hoveredTiles.Clear();
             foreach (var previewTile in previewTiles)
-            {
-                var gridTile = GridManager.GetTileAtPosition(previewTile.transform.position);
-                hoveredTiles.Add(gridTile);
-            }
+                hoveredTiles.Add(GridManager.GetTileAtPosition(previewTile.transform.position));
 
             HighlightTiles(IsPlacementValid());
             UpdatePreview();
@@ -56,20 +47,7 @@ namespace PlacingSystem
             if (hoveredTiles.Count == 0) return;
 
             tilesTransform.gameObject.SetActive(true);
-
-            Vector3 center = GetCenterOfPreviewTiles();
-
-            if (productPreviewInstance == null)
-            {
-                productPreviewInstance = Instantiate(currentBuilding.Prefab, center, Quaternion.Euler(0f, rotationStep * RotationIncrement, 0f), tilesTransform);
-                DisablePreviewBehavior(productPreviewInstance);
-            }
-
-            productPreviewInstance.transform.position = center;
-            productPreviewInstance.transform.rotation = Quaternion.Euler(0f, rotationStep * RotationIncrement, 0f);
-
-            foreach (var renderer in productPreviewInstance.GetComponentsInChildren<Renderer>())
-                renderer.material = productPreviewMaterialTransparent;
+            CreateOrUpdatePreviewInstance(currentBuilding, GetCenterOfPreviewTiles());
         }
 
         public override void OnConfirmPlacement()
@@ -84,9 +62,7 @@ namespace PlacingSystem
 
             SeTilesColor(currentBuilding.OccupiedGradient.Evaluate(Random.Range(0f, 1f)));
 
-            Vector3 center = GetCenterOfPreviewTiles();
-
-            var building = GameLogicMediator.BuildingFactory.CreateBuilding(currentBuilding, center);
+            var building = GameLogicMediator.BuildingFactory.CreateBuilding(currentBuilding, GetCenterOfPreviewTiles());
             building.transform.rotation = Quaternion.Euler(0f, rotationStep * RotationIncrement, 0f);
             ClearPreview();
 
@@ -98,15 +74,6 @@ namespace PlacingSystem
         {
             base.ClearPreview();
             currentBuilding = null;
-        }
-
-        protected override void DisablePreviewBehavior(GameObject instance)
-        {
-            foreach (var col in instance.GetComponentsInChildren<Collider>())
-                col.enabled = false;
-
-            foreach (var mono in instance.GetComponentsInChildren<MonoBehaviour>())
-                mono.enabled = false;
         }
     }
 }

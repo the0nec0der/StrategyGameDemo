@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 
 using Enums;
+using Gameplay;
+using Gameplay.Product;
 
 using GridSystem;
 
@@ -9,7 +11,7 @@ using UnityEngine;
 
 namespace PlacingSystem
 {
-    public abstract class BasePlacer<T> : MonoBehaviour where T : class
+    public abstract class BasePlacer<T> : MonoBehaviour where T : class, IProduct
     {
         [SerializeField] protected Transform tilesTransform;
         [SerializeField] protected Material productPreviewMaterialTransparent;
@@ -26,6 +28,9 @@ namespace PlacingSystem
         protected int rotationStep = 0;
         private GameInputActions inputActions;
 
+        public Action OnPlacementConfirmed;
+        public Action<Action> OnProductConfirmed;
+
         protected int RotationIncrement => GridManager.Instance.LayoutType switch
         {
             GridLayoutType.Square => 90,
@@ -34,8 +39,9 @@ namespace PlacingSystem
             _ => 90
         };
 
-        public Action OnPlacementConfirmed = null;
-        public Action<Action> OnProductConfirmed = null;
+        protected GameStateManager GameStateManager => GameStateManager.Instance;
+        protected GameLogicMediator GameLogicMediator => GameLogicMediator.Instance;
+        protected GridManager GridManager => GridManager.Instance;
 
         protected virtual void OnEnable()
         {
@@ -49,41 +55,41 @@ namespace PlacingSystem
             inputActions.Placement.Enable();
         }
 
-        protected virtual void OnDisable()
-        {
-            inputActions?.Placement.Disable();
-        }
+        protected virtual void OnDisable() => inputActions?.Placement.Disable();
 
         public virtual void ClearPreview()
         {
             if (productPreviewInstance != null)
-            {
                 Destroy(productPreviewInstance);
-                productPreviewInstance = null;
-            }
 
             if (previewOffsetRoot != null)
-            {
                 Destroy(previewOffsetRoot.gameObject);
-                previewOffsetRoot = null;
-            }
 
             previewOffsetRoot = new GameObject("OffsetRoot").transform;
             previewOffsetRoot.SetParent(tilesTransform, false);
 
             tilesTransform.rotation = Quaternion.identity;
             rotationStep = 0;
+
+            productPreviewInstance = null;
             previewTiles.Clear();
             hoveredTiles.Clear();
             previewTileMap.Clear();
             tilesTransform.gameObject.SetActive(false);
         }
 
-        public abstract void OnConfirmPlacement();
+        protected virtual void DisablePreviewBehavior(GameObject instance)
+        {
+            foreach (var col in instance.GetComponentsInChildren<Collider>())
+                col.enabled = false;
 
+            foreach (var mono in instance.GetComponentsInChildren<MonoBehaviour>())
+                mono.enabled = false;
+        }
+
+        public abstract void OnConfirmPlacement();
         public abstract void OnTileHovered(GridTile tile);
         protected abstract void UpdatePreview();
-        protected abstract void DisablePreviewBehavior(GameObject instance);
 
         protected void RotatePreviewStep(int direction)
         {
@@ -98,23 +104,19 @@ namespace PlacingSystem
 
         protected void HighlightTiles(bool canPlace)
         {
-            for (int i = 0; i < previewTiles.Count; i++)
+            foreach (var tile in previewTiles)
             {
-                var tile = previewTiles[i];
                 if (tile == null) continue;
-
-                var spriteRenderer = tile.GetComponentInChildren<SpriteRenderer>();
-                if (spriteRenderer != null)
-                    spriteRenderer.color = canPlace ? tilePreviewMaterialGreen : tilePreviewMaterialRed;
+                var renderer = tile.GetComponentInChildren<SpriteRenderer>();
+                if (renderer != null)
+                    renderer.color = canPlace ? tilePreviewMaterialGreen : tilePreviewMaterialRed;
             }
         }
 
         protected void SeTilesColor(Color32 color)
         {
             foreach (var tile in hoveredTiles)
-            {
                 tile.SetColor(color);
-            }
         }
 
         protected bool IsPlacementValid()
@@ -133,15 +135,13 @@ namespace PlacingSystem
             foreach (var tile in previewTiles)
                 center += tile.transform.position;
 
-            center /= previewTiles.Count;
-            return center;
+            return center / previewTiles.Count;
         }
 
         protected int GetCenterTileIndex(Vector2Int size)
         {
             int w = size.x;
             int h = size.y;
-
             return (w, h) switch
             {
                 (1, 1) => 0,
@@ -153,6 +153,21 @@ namespace PlacingSystem
                 (4, 4) => 5,
                 _ => w * h / 2
             };
+        }
+
+        protected void CreateOrUpdatePreviewInstance(T product, Vector3 position)
+        {
+            if (productPreviewInstance == null)
+            {
+                productPreviewInstance = Instantiate(product.Prefab, position, Quaternion.Euler(0f, rotationStep * RotationIncrement, 0f), tilesTransform);
+                DisablePreviewBehavior(productPreviewInstance);
+            }
+
+            productPreviewInstance.transform.position = position;
+            productPreviewInstance.transform.rotation = Quaternion.Euler(0f, rotationStep * RotationIncrement, 0f);
+
+            foreach (var renderer in productPreviewInstance.GetComponentsInChildren<Renderer>())
+                renderer.material = productPreviewMaterialTransparent;
         }
     }
 }
