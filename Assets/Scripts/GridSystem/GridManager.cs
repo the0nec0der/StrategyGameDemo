@@ -104,10 +104,7 @@ namespace GridSystem
         {
             foreach (var tile in Tiles.Values)
             {
-                if (!tile.Occupied)
-                {
-                    tile.RevertTile();
-                }
+                tile.RevertTile();
             }
 
             if (GameStateManager.IsState(GameStateType.BuildingPlacement))

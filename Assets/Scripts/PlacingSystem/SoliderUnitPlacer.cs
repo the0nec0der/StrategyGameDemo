@@ -56,7 +56,7 @@ namespace PlacingSystem
             var tile = hoveredTiles[0];
             tile.Occupied = true;
 
-            SeTilesColor(currentSoldier.OccupiedGradient.Evaluate(Random.Range(0f, 1f)));
+            SetTilesColor(currentSoldier.OccupiedGradient.Evaluate(Random.Range(0f, 1f)));
 
             var soldierUnit = GameLogicMediator.SoldierFactory.CreateSoldier(currentSoldier, tile.transform.position);
             soldierUnit.transform.rotation = Quaternion.Euler(0f, rotationStep * RotationIncrement, 0f);

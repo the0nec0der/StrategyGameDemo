@@ -21,6 +21,7 @@ namespace GridSystem
         private bool selected;
         private Color defaultColor;
 
+        public Color ChangedColor { get; set; }
         public bool Occupied { get; set; }
         public bool IsPreview { get; set; }
         public IProduct Product { get; set; }
@@ -84,7 +85,10 @@ namespace GridSystem
         public void SetG(float g) { G = g; }
         public void SetH(float h) { H = h; }
         public void SetColor(Color color) => tileSpriteRenderer.color = color;
-        public void RevertTile() => tileSpriteRenderer.color = defaultColor;
+        public void RevertTile()
+        {
+            tileSpriteRenderer.color = !Occupied ? defaultColor : ChangedColor;
+        }
         #endregion
     }
 }

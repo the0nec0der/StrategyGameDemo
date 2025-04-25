@@ -148,9 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 566f83055f1c8c1469c10e5ecdfbea27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layoutType: 1
-  gridWidth: 48
-  gridHeight: 32
+  layoutType: 0
+  gridWidth: 50
+  gridHeight: 50
   obstacleWeight: 4
   squarePrefab: {fileID: 4684346378742831216, guid: 0354fe0939ca644479735223d4050d1d, type: 3}
   hexFlatPrefab: {fileID: 4684346378742831216, guid: 48e0efd97a08f3d4f9e6a8febd3d886d, type: 3}

@@ -113,10 +113,13 @@ namespace PlacingSystem
             }
         }
 
-        protected void SeTilesColor(Color32 color)
+        protected void SetTilesColor(Color32 color)
         {
             foreach (var tile in hoveredTiles)
+            {
+                tile.ChangedColor = color;
                 tile.SetColor(color);
+            }
         }
 
         protected bool IsPlacementValid()

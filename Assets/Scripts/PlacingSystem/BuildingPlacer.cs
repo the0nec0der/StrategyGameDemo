@@ -60,7 +60,7 @@ namespace PlacingSystem
                 tile.Product = currentBuilding;
             }
 
-            SeTilesColor(currentBuilding.OccupiedGradient.Evaluate(Random.Range(0f, 1f)));
+            SetTilesColor(currentBuilding.OccupiedGradient.Evaluate(Random.Range(0f, 1f)));
 
             var building = GameLogicMediator.BuildingFactory.CreateBuilding(currentBuilding, GetCenterOfPreviewTiles());
             building.transform.rotation = Quaternion.Euler(0f, rotationStep * RotationIncrement, 0f);
