@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using UnityEngine;
 
 namespace GridSystem
@@ -9,64 +8,72 @@ namespace GridSystem
     public static class Pathfinding
     {
         private static readonly Color PathColor = new Color(0.65f, 0.35f, 0.35f);
-        private static readonly Color OpenColor = new Color(.4f, .6f, .4f);
-        private static readonly Color ClosedColor = new Color(0.35f, 0.4f, 0.5f);
 
         public static List<GridTile> FindPath(GridTile startNode, GridTile targetNode)
         {
             var toSearch = new List<GridTile>() { startNode };
-            var processed = new List<GridTile>();
+            var processed = new HashSet<GridTile>();
+
+            foreach (var tile in startNode.Neighbors)
+            {
+                tile.SetConnection(null);
+                tile.SetG(float.MaxValue);
+                tile.SetH(0);
+            }
+
+            startNode.SetG(0);
+            startNode.SetH(startNode.GetDistance(targetNode));
 
             while (toSearch.Any())
             {
-                var current = toSearch[0];
-                foreach (var t in toSearch)
-                    if (t.F < current.F || t.F == current.F && t.H < current.H) current = t;
-
-                processed.Add(current);
-                toSearch.Remove(current);
-
-                current.SetColor(ClosedColor);
+                var current = toSearch.OrderBy(t => t.F).ThenBy(t => t.H).First();
 
                 if (current == targetNode)
                 {
-                    var currentPathTile = targetNode;
                     var path = new List<GridTile>();
-                    var count = 100;
+                    var currentPathTile = targetNode;
+
+                    int safetyCount = 100;
                     while (currentPathTile != startNode)
                     {
                         path.Add(currentPathTile);
                         currentPathTile = currentPathTile.Connection;
-                        count--;
-                        if (count < 0) throw new Exception();
+                        safetyCount--;
+                        if (safetyCount < 0) throw new Exception("Infinite loop in path tracing");
                     }
 
+                    path.Reverse();
                     foreach (var tile in path) tile.SetColor(PathColor);
                     startNode.SetColor(PathColor);
-                    Debug.Log(path.Count);
+
                     return path;
                 }
 
-                foreach (var neighbor in current.Neighbors.Where(t => t.Walkable && !processed.Contains(t)))
+                toSearch.Remove(current);
+                processed.Add(current);
+
+                foreach (var neighbor in current.Neighbors.Where(t => t.Walkable && !t.Occupied))
                 {
-                    var inSearch = toSearch.Contains(neighbor);
+                    if (processed.Contains(neighbor))
+                        continue;
 
-                    var costToNeighbor = current.G + current.GetDistance(neighbor);
+                    float tentativeG = current.G + current.GetDistance(neighbor);
 
-                    if (!inSearch || costToNeighbor < neighbor.G)
+                    if (!toSearch.Contains(neighbor))
                     {
-                        neighbor.SetG(costToNeighbor);
                         neighbor.SetConnection(current);
-
-                        if (!inSearch)
-                        {
-                            neighbor.SetH(neighbor.GetDistance(targetNode));
-                            toSearch.Add(neighbor);
-                            neighbor.SetColor(OpenColor);
-                        }
+                        neighbor.SetG(tentativeG);
+                        neighbor.SetH(neighbor.GetDistance(targetNode));
+                        toSearch.Add(neighbor);
+                    }
+                    else if (tentativeG < neighbor.G)
+                    {
+                        neighbor.SetConnection(current);
+                        neighbor.SetG(tentativeG);
                     }
                 }
             }
+
             return null;
         }
     }

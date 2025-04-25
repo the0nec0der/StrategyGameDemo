@@ -28,9 +28,9 @@ public class SoliderUnitInformationMenuController : MenuControllerBase
         EnsureCardDisplayerAssigned();
     }
 
-    public void SetInformationPanel(ISoliderUnit soliderUnit, bool isPlaced = false)
+    public void SetInformationPanel(ISoliderUnitData soliderUnit, bool isPlaced = false)
     {
-        if (soliderUnit is null or not ISoliderUnit)
+        if (soliderUnit is null or not ISoliderUnitData)
             return;
 
         EnsureCardDisplayerAssigned();

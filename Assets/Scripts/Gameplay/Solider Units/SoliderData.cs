@@ -1,14 +1,12 @@
 using Gameplay.Product;
 using Gameplay.StatSystem;
-
 using GridSystem;
-
 using UnityEngine;
 
 namespace Gameplay.SoldierUnits
 {
     [CreateAssetMenu(fileName = "NewSoldier", menuName = "Game/Soldier Data")]
-    public class SoldierData : ScriptableObject, ISoliderUnit
+    public class SoldierData : ScriptableObject, ISoliderUnitData
     {
         [Header("Product Info")]
         [SerializeField] private ProductData productData;

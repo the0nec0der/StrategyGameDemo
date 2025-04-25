@@ -23,7 +23,7 @@ namespace Gameplay.Buildings
             InitializeMaxHP(data.MaxHealth);
         }
 
-        public ISoliderUnit[] GetProducibleSoldiers()
+        public ISoliderUnitData[] GetProducibleSoldiers()
         {
             return producerData?.ProducibleSoldiers;
         }

@@ -37,6 +37,8 @@ namespace GridSystem
         private GameLogicMediator GameLogicMediator => GameLogicMediator.Instance;
         private GameStateManager GameStateManager => GameStateManager.Instance;
 
+        private readonly SoliderUnitCommander soliderUnitCommander = new();
+
         private void Awake()
         {
             if (Instance != this)
@@ -67,50 +69,57 @@ namespace GridSystem
                 if (selectedTile.Product != null)
                 {
                     if (selectedTile.Product is IBuilding building)
+                    {
                         GameLogicMediator.BuildingInformationMenuController.SetInformationPanel(building, true);
-                    else if (selectedTile.Product is ISoliderUnit soliderUnit)
-                        // GameLogicMediator.BuildingInformationMenuController.SetBuildingInformationPanel(soliderUnit);
-                        Debug.Log($"selected tile name: {selectedTile.transform.name} \n pos: {selectedTile.transform.position} --- {GetTileAtPosition(selectedTile.transform.position)?.gameObject.name}");
+                        return;
+                    }
+                    if (selectedTile.RuntimeSoldier != null)
+                    {
+                        soliderUnitCommander.SelectUnit(selectedTile.RuntimeSoldier, selectedTile);
+                        return;
+                    }
                 }
             }
 
             if (GameStateManager.IsState(GameStateType.BuildingPlacement))
+            {
                 GameLogicMediator.BuildingPlacer.OnConfirmPlacement();
+                return;
+            }
 
             if (GameStateManager.IsState(GameStateType.SoldierPlacement))
+            {
                 GameLogicMediator.SoldierPlacer.OnConfirmPlacement();
+                return;
+            }
         }
 
         private void OnTileHovered(GridTile hoveredTile)
         {
+            foreach (var tile in Tiles.Values)
+            {
+                if (!tile.Occupied)
+                {
+                    tile.RevertTile();
+                }
+            }
+
             if (GameStateManager.IsState(GameStateType.BuildingPlacement))
             {
-                foreach (var tile in Tiles.Values)
-                {
-                    if (!tile.Occupied)
-                    {
-                        tile.RevertTile();
-                    }
-                }
                 GameLogicMediator.BuildingPlacer.OnTileHovered(hoveredTile);
+                return;
             }
 
             if (GameStateManager.IsState(GameStateType.SoldierPlacement))
             {
-                foreach (var tile in Tiles.Values)
-                {
-                    if (!tile.Occupied)
-                    {
-                        tile.RevertTile();
-                    }
-                }
                 GameLogicMediator.SoldierPlacer.OnTileHovered(hoveredTile);
+                return;
             }
 
             if (GameStateManager.IsState(GameStateType.MoveCommand))
             {
-                if (originNode != null)
-                    Pathfinding.FindPath(originNode, hoveredTile);
+                soliderUnitCommander.ShowPreviewPath(hoveredTile);
+                return;
             }
         }
 

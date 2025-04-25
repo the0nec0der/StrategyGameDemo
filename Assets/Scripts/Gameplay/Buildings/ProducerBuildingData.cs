@@ -10,6 +10,6 @@ namespace Gameplay.Buildings
         [Header("Production Options")]
         [SerializeField] private SoldierData[] producibleSoldiers;
 
-        public ISoliderUnit[] ProducibleSoldiers => producibleSoldiers;
+        public ISoliderUnitData[] ProducibleSoldiers => producibleSoldiers;
     }
 }

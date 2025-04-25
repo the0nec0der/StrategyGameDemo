@@ -17,7 +17,7 @@ namespace Gameplay.SoldierUnits
             }
         }
 
-        public void PrepareSoldierPool(ISoliderUnit data, int initialCount = 5)
+        public void PrepareSoldierPool(ISoliderUnitData data, int initialCount = 5)
         {
             if (!IsValid(data)) return;
 
@@ -25,7 +25,7 @@ namespace Gameplay.SoldierUnits
             PoolManager.Instance.CreatePool(prefab, initialCount, soldierRoot);
         }
 
-        public SoldierController CreateSoldier(ISoliderUnit data, Vector3 position)
+        public SoldierController CreateSoldier(ISoliderUnitData data, Vector3 position)
         {
             if (!IsValid(data)) return null;
 
@@ -38,7 +38,7 @@ namespace Gameplay.SoldierUnits
             return soldier;
         }
 
-        private SoldierController GetOrAddController(ISoliderUnit data)
+        private SoldierController GetOrAddController(ISoliderUnitData data)
         {
             var controller = data.Prefab.GetComponent<SoldierController>();
             if (controller == null)
@@ -49,7 +49,7 @@ namespace Gameplay.SoldierUnits
             return controller;
         }
 
-        private bool IsValid(ISoliderUnit data)
+        private bool IsValid(ISoliderUnitData data)
         {
             if (data == null || data.Prefab == null)
             {

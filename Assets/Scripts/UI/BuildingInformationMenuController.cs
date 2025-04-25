@@ -79,7 +79,7 @@ public class BuildingInformationMenuController : MenuControllerBase
                onClickCard: isPlaced ? (product) => () =>
                 {
                     if (!isPlaced) return;
-                    GameLogicMediator.Instance.SoliderUnitInformationMenuController.SetInformationPanel(product as ISoliderUnit);
+                    GameLogicMediator.Instance.SoliderUnitInformationMenuController.SetInformationPanel(product as ISoliderUnitData);
                     // CloseMenu();
                 }
             : null

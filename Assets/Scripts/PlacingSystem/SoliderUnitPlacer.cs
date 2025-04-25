@@ -9,11 +9,11 @@ using UnityEngine;
 
 namespace PlacingSystem
 {
-    public class SoldierPlacer : BasePlacer<ISoliderUnit>
+    public class SoldierPlacer : BasePlacer<ISoliderUnitData>
     {
-        private ISoliderUnit currentSoldier;
+        private ISoliderUnitData currentSoldier;
 
-        public void StartPlacingSoldier(ISoliderUnit soldier)
+        public void StartPlacingSoldier(ISoliderUnitData soldier)
         {
             GameStateManager.SetState(Enums.GameStateType.SoldierPlacement);
             ClearPreview();
@@ -55,12 +55,15 @@ namespace PlacingSystem
 
             var tile = hoveredTiles[0];
             tile.Occupied = true;
-            tile.Product = currentSoldier;
 
             SeTilesColor(currentSoldier.OccupiedGradient.Evaluate(Random.Range(0f, 1f)));
 
             var soldierUnit = GameLogicMediator.SoldierFactory.CreateSoldier(currentSoldier, tile.transform.position);
             soldierUnit.transform.rotation = Quaternion.Euler(0f, rotationStep * RotationIncrement, 0f);
+
+            tile.RuntimeSoldier = soldierUnit;
+            tile.Product = currentSoldier;
+
             ClearPreview();
 
             GameStateManager.SetState(Enums.GameStateType.Idle);

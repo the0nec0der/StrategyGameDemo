@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Gameplay.Product;
+using Gameplay.SoldierUnits;
 using UnityEngine;
 
 using Random = UnityEngine.Random;
@@ -23,6 +24,7 @@ namespace GridSystem
         public bool Occupied { get; set; }
         public bool IsPreview { get; set; }
         public IProduct Product { get; set; }
+        public SoldierController RuntimeSoldier { get; set; }
 
         public virtual void Init(bool walkable, bool isPreview, ICoordinates coords)
         {
