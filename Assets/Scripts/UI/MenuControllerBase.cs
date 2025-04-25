@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+#if UNITY_EDITOR
 using EditorHelper;
+#endif
 
 using Enums;
 
@@ -54,7 +56,10 @@ namespace UI
             canvas.enabled = activeOnStart;
         }
 
+#if UNITY_EDITOR
         [Button]
+#endif
+
         public void OpenMenu(Action onMenuClosedCallback = null)
         {
             if (IsOpen) return;
@@ -69,7 +74,9 @@ namespace UI
             canvas.enabled = true;
         }
 
+#if UNITY_EDITOR
         [Button]
+#endif
         public void CloseMenu()
         {
             if (!IsOpen) return;
