@@ -37,7 +37,7 @@ namespace GridSystem
         private GameLogicMediator GameLogicMediator => GameLogicMediator.Instance;
         private GameStateManager GameStateManager => GameStateManager.Instance;
 
-        private readonly SoliderUnitCommander soliderUnitCommander = new();
+        public readonly SoliderUnitCommander SoliderUnitCommander = new();
 
         private void Awake()
         {
@@ -75,7 +75,7 @@ namespace GridSystem
                     }
                     if (selectedTile.RuntimeSoldier != null)
                     {
-                        soliderUnitCommander.SelectUnit(selectedTile.RuntimeSoldier, selectedTile);
+                        SoliderUnitCommander.SelectUnit(selectedTile.RuntimeSoldier, selectedTile);
                         return;
                     }
                 }
@@ -83,7 +83,7 @@ namespace GridSystem
 
             if (GameStateManager.IsState(GameStateType.MoveCommand))
             {
-                soliderUnitCommander.IssueCommand(selectedTile);
+                SoliderUnitCommander.IssueCommand(selectedTile);
                 return;
             }
 
@@ -124,7 +124,7 @@ namespace GridSystem
 
             if (GameStateManager.IsState(GameStateType.MoveCommand))
             {
-                soliderUnitCommander.ShowPreviewPath(hoveredTile);
+                SoliderUnitCommander.ShowPreviewPath(hoveredTile);
                 return;
             }
         }

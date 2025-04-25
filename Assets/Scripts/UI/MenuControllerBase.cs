@@ -81,7 +81,8 @@ namespace UI
         {
             if (!IsOpen) return;
 
-            GameStateManager.RestorePreviousState();
+            if (GameStateManager.CurrentState == GameStateType.UI)
+                GameStateManager.RestorePreviousState();
 
             Action tempOnMenuClosedCallback = onMenuClosedCallback;
             onMenuClosedCallback = null;

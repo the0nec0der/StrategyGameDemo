@@ -1,8 +1,9 @@
+using System;
+
 using Core.InstanceSystem;
 
 using Enums;
-
-using System;
+using GridSystem;
 using UnityEngine;
 
 namespace Gameplay
@@ -17,6 +18,8 @@ namespace Gameplay
         public event Action<GameStateType> OnGameStateChanged;
 
         private GameStateType? previousState = null;
+
+        private GameLogicMediator GameLogicMediator => GameLogicMediator.Instance;
 
         private void Awake()
         {
@@ -34,11 +37,16 @@ namespace Gameplay
                 if (CurrentState != GameStateType.UI && CurrentState != GameStateType.Idle)
                     previousState = CurrentState;
             }
+            else
+            {
+                previousState = null;
+            }
 
             ExitState(CurrentState);
             CurrentState = newState;
             EnterState(CurrentState);
 
+            Debug.Log($"Game state changed to: {CurrentState}");
             OnGameStateChanged?.Invoke(CurrentState);
         }
 
@@ -56,10 +64,12 @@ namespace Gameplay
             switch (state)
             {
                 case GameStateType.BuildingPlacement:
-                    GameLogicMediator.Instance.BuildingPlacer.enabled = true;
+                    GameLogicMediator.BuildingPlacer.enabled = true;
+                    GridManager.Instance.SoliderUnitCommander.ClearPreviewPath();
+                    GameLogicMediator.SoldierPlacer.enabled = false;
                     break;
                 case GameStateType.SoldierPlacement:
-                    GameLogicMediator.Instance.SoldierPlacer.enabled = true;
+                    GameLogicMediator.SoldierPlacer.enabled = true;
                     break;
                 case GameStateType.Selection:
                     // Enable selection visuals
@@ -81,10 +91,10 @@ namespace Gameplay
             switch (state)
             {
                 case GameStateType.BuildingPlacement:
-                    GameLogicMediator.Instance.BuildingPlacer.enabled = false;
+                    GameLogicMediator.BuildingPlacer.enabled = false;
                     break;
                 case GameStateType.SoldierPlacement:
-                    GameLogicMediator.Instance.SoldierPlacer.enabled = false;
+                    GameLogicMediator.SoldierPlacer.enabled = false;
                     break;
                     // Add cleanup for other states if needed
             }
