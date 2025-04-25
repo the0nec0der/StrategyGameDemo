@@ -81,6 +81,12 @@ namespace GridSystem
                 }
             }
 
+            if (GameStateManager.IsState(GameStateType.MoveCommand))
+            {
+                soliderUnitCommander.IssueCommand(selectedTile);
+                return;
+            }
+
             if (GameStateManager.IsState(GameStateType.BuildingPlacement))
             {
                 GameLogicMediator.BuildingPlacer.OnConfirmPlacement();

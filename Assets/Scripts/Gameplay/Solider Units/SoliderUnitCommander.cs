@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 
 using Enums;
@@ -14,29 +15,93 @@ public class SoliderUnitCommander
 {
     private GridTile originTile;
     private ISoliderUnit selectedUnit;
+    private List<GridTile> currentPreviewPath = new();
 
     public void SelectUnit(ISoliderUnit unit, GridTile tile)
     {
+        // If re-clicking the same unit → deselect
+        if (unit == selectedUnit && tile == originTile)
+        {
+            ClearPreviewPath();
+            Reset();
+            GameStateManager.Instance.SetState(GameStateType.Idle);
+            return;
+        }
+
+        ClearPreviewPath();
         selectedUnit = unit;
         originTile = tile;
+
         GameStateManager.Instance.SetState(GameStateType.MoveCommand);
     }
 
     public void IssueCommand(GridTile targetTile)
     {
         if (selectedUnit == null || originTile == null) return;
-        if (!targetTile.Walkable || targetTile == originTile) return;
+
+        // Clicking the same tile cancels preview
+        if (targetTile == originTile)
+        {
+            ClearPreviewPath();
+            Reset();
+            GameStateManager.Instance.SetState(GameStateType.Idle);
+            return;
+        }
+
+        if (!targetTile.Walkable) return;
 
         if (!targetTile.Occupied)
         {
+            ClearPreviewPath();
             MoveUnit(targetTile);
         }
         else if (targetTile.Product is IBuilding building)
         {
+            ClearPreviewPath();
             AttackTarget(building, targetTile);
         }
 
         Reset();
+    }
+
+    public void ShowPreviewPath(GridTile hoveredTile)
+    {
+        if (selectedUnit == null || originTile == null || hoveredTile == originTile)
+            return;
+
+        ClearPreviewPath();
+
+        var path = Pathfinding.FindPath(originTile, hoveredTile);
+        if (path == null || path.Count == 0) return;
+
+        currentPreviewPath = path;
+
+        Color previewColor = hoveredTile.Occupied switch
+        {
+            true when hoveredTile.Product is IBuilding => Color.red,
+            false => Color.green,
+            _ => Color.gray
+        };
+
+        foreach (var tile in currentPreviewPath)
+            tile.SetColor(previewColor);
+
+        if (!originTile.Occupied)
+            originTile.SetColor(previewColor);
+    }
+
+    public void ClearPreviewPath()
+    {
+        foreach (var tile in currentPreviewPath)
+        {
+            if (!tile.Occupied)
+                tile.RevertTile();
+        }
+
+        if (originTile != null && !originTile.Occupied)
+            originTile.RevertTile();
+
+        currentPreviewPath.Clear();
     }
 
     private void MoveUnit(GridTile targetTile)
@@ -46,12 +111,10 @@ public class SoliderUnitCommander
 
         selectedUnit.MoveAlongPath(path);
 
-        // Clear old tile
         originTile.Occupied = false;
         originTile.Product = null;
         originTile.RuntimeSoldier = null;
 
-        // Set new tile
         if (selectedUnit is SoldierController controller)
         {
             targetTile.Occupied = true;
@@ -77,30 +140,10 @@ public class SoliderUnitCommander
         };
     }
 
-    public void ShowPreviewPath(GridTile hoveredTile)
-    {
-        if (selectedUnit == null || originTile == null || hoveredTile == originTile)
-            return;
-
-        var path = Pathfinding.FindPath(originTile, hoveredTile);
-        if (path == null || path.Count == 0) return;
-
-        Color previewColor = hoveredTile.Occupied switch
-        {
-            true when hoveredTile.Product is IBuilding => Color.red,
-            false => Color.green,
-            _ => Color.gray
-        };
-
-        foreach (var tile in path)
-            tile.SetColor(previewColor);
-
-        originTile.SetColor(previewColor);
-    }
-
     private void Reset()
     {
-        selectedUnit = null;
         originTile = null;
+        selectedUnit = null;
+        currentPreviewPath.Clear();
     }
 }
